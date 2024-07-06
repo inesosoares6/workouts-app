@@ -123,6 +123,7 @@
 </template>
 
 <script setup lang="ts">
+import { PersonalValue } from '@/enums/PersonalEnums';
 import { useStoreUser } from '@/stores/user'
 import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
@@ -135,7 +136,7 @@ const props = defineProps<{
 
 const tab = ref(null)
 
-const isMeasurement = computed(() => props.input === 'measurement')
+const isMeasurement = computed(() => props.input === PersonalValue.MEASUREMENT)
 
 const editPersonalRecord = ref(false)
 const personalValueEdited = ref()

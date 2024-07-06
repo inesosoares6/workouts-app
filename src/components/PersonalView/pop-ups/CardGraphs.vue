@@ -6,22 +6,22 @@
 	<VueApexCharts
 		type="line"
 		:options="
-			input === 'measurement'
+			input === PersonalValue.MEASUREMENT
 				? chartOptionsWithTarget
 				: personalValue.value.length === 1
 				? chartOptionsWithoutTarget
 				: chartOptions
 		"
 		:series="series"
-		width="100%"
+		class="mt-4 w-100"
 		height="70px"
-		style="margin-top: 15px"
 	/>
 </template>
 
 <script setup lang="ts">
 import { getRMEvolution } from '@/helpers/math'
 import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
+import { PersonalValue } from '@/enums/PersonalEnums'
 import VueApexCharts from 'vue3-apexcharts'
 
 const props = defineProps<{
@@ -37,13 +37,16 @@ const getMinMax = (value: number[], target?: number) => {
 	return min === max ? [min - 10, max + 10] : [min, max]
 }
 
+const seriesData = computed(() =>
+	props.input === PersonalValue.MEASUREMENT
+		? props.personalValue.value
+		: getRMEvolution(props.personalValue as PersonalRecord)
+)
+
 const series = ref([
 	{
 		name: props.personalValue.name,
-		data:
-			props.input === 'measurement'
-				? props.personalValue.value
-				: getRMEvolution(props.personalValue as PersonalRecord)
+		data: seriesData.value
 	}
 ])
 
@@ -94,8 +97,8 @@ const chartOptions = ref({
 
 const chartOptionsWithoutTarget = ref({
 	yaxis: {
-		min: getMinMax(props.personalValue.value)[0],
-		max: getMinMax(props.personalValue.value)[1]
+		min: getMinMax(seriesData.value)[0],
+		max: getMinMax(seriesData.value)[1]
 	},
 	...chartOptions.value
 })
@@ -111,11 +114,11 @@ const chartOptionsWithTarget = ref({
 	},
 	yaxis: {
 		min: getMinMax(
-			props.personalValue.value,
+			seriesData.value,
 			(props.personalValue as Measurement).target
 		)[0],
 		max: getMinMax(
-			props.personalValue.value,
+			seriesData.value,
 			(props.personalValue as Measurement).target
 		)[1]
 	},
@@ -125,7 +128,7 @@ const chartOptionsWithTarget = ref({
 watch(
 	() => [props.color, props.personalValue],
 	() => {
-		if (props.input === 'measurement') {
+		if (props.input === PersonalValue.MEASUREMENT) {
 			chartOptionsWithTarget.value.colors = [props.color]
 		} else {
 			chartOptions.value.colors = [props.color]

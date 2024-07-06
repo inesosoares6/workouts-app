@@ -38,7 +38,7 @@
 							</v-progress-circular>
 							<EditPersonalValue
 								:personalValue="record"
-								input="measurement"
+								:input="PersonalValue.MEASUREMENT"
 								:color="convertColor(getMeasurementColor(record))"
 							/>
 							<p
@@ -56,7 +56,7 @@
 									<v-icon color="grey">mdi-pencil</v-icon>
 									<EditPersonalValue
 										:personalValue="record"
-										input="measurement"
+										:input="PersonalValue.MEASUREMENT"
 										:color="convertColor(getMeasurementColor(record))"
 									/>
 								</v-btn>
@@ -80,6 +80,7 @@
 <script setup lang="ts">
 import { useStoreUser } from '@/stores/user'
 import { Measurement } from '@/types/PersonalTypes'
+import { PersonalValue } from '@/enums/PersonalEnums'
 
 const storeUser = useStoreUser()
 const measurements = computed(() => storeUser.measurements)

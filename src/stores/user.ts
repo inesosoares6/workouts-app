@@ -1,3 +1,4 @@
+import { PersonalValue } from '@/enums/PersonalEnums'
 import { Measurement, Objective, PersonalRecord } from '@/types/PersonalTypes'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
@@ -84,7 +85,7 @@ export const useStoreUser = defineStore('user', {
 		},
 
 		updateValue(variableName: string, payload: any) {
-			if (variableName === 'measurement') this.updateMeasurement(payload)
+			if (variableName === PersonalValue.MEASUREMENT) this.updateMeasurement(payload)
 			else this.updatePR(payload)
 		},
 
