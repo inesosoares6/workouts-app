@@ -24,7 +24,7 @@ interface ListByType {
 
 const groupWorkoutsByType = computed(() => {
 	const returnList: ListByType = [...storeWorkouts.getTypes].reduce(
-		(item, key) => ({ ...item, [key]: {} }),
+		(item, key) => ({ ...item, [key]: [] }),
 		{}
 	)
 	storeWorkouts.allWorkouts.forEach(item => {
