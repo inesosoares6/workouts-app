@@ -46,7 +46,7 @@
 					style="margin-right: 5px"
 				>
 					<v-icon>mdi-cog</v-icon>
-					<TabataSettings @updateTimes="tabataTabRef.resetTabata()" />
+					<TabataSettings @updateTimes="handleResetTabata" />
 				</v-btn>
 			</v-row>
 		</v-card-title>
@@ -109,6 +109,11 @@ const tabataStatus = computed(() =>
 	tabataTabRef.value ? tabataTabRef.value.tabataStatus : ''
 )
 
+const handleResetTabata = () => {
+	// @ts-ignore
+  tabataTabRef.resetTabata()
+}
+
 const getColor = () => {
 	if (isRunning.value && mode.value !== 2) {
 		return 'error'
@@ -131,11 +136,6 @@ const getColor = () => {
 .v-text-field {
 	width: 1% !important;
 	margin-right: 5px;
-}
-
-.v-card-title {
-	margin-bottom: 10px;
-	margin-top: 0px;
 }
 
 .timer-title {

@@ -75,7 +75,7 @@ export const useStoreWorkouts = defineStore('workouts', {
 		},
 
 		addWorkout(workout: Workout) {
-			this.allWorkouts.push(workout)
+			this.allWorkouts.push({ ...workout, id: uuidv4() })
 			this.writeInDB()
 		},
 

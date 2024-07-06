@@ -5,15 +5,10 @@
 			:key="key"
 			:value="workout"
 			:title="workout.name"
-			:subtitle="
-				workout.type + `${workout.time ? ' - ' + workout.time + ' min' : ''}`
-			"
+			:subtitle="workout.type + ' - ' + workout.time + ' min'"
 			rounded="xl"
 		>
-			<PreviewWorkout
-				:workout="workout"
-				:id="key"
-			/>
+			<PreviewWorkout :workout="workout" />
 
 			<template v-slot:prepend>
 				<v-avatar :color="workout.completions > 0 ? 'secondary' : 'error'">
@@ -25,7 +20,7 @@
 					flat
 					round
 					icon
-					@click="storeWorkouts.deleteWorkout(key)"
+					@click="storeWorkouts.deleteWorkout(workout.id)"
 				>
 					<v-icon color="red">mdi-delete</v-icon>
 				</v-btn>

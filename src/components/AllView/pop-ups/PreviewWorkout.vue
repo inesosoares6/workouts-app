@@ -23,8 +23,7 @@
 				>
 					<v-icon>mdi-pencil</v-icon>
 					<EditWorkout
-						v-bind:workout="workout"
-						v-bind:id="id"
+						:workout="workout"
 					/>
 				</v-btn>
 			</template>
@@ -35,7 +34,7 @@
 				<v-btn
 					color="secondary"
 					@click="selectWorkout"
-					:to="{ name: 'workout-view' }"
+					to="WorkoutView"
 				>
 					Select
 				</v-btn>
@@ -50,14 +49,13 @@ import { Workout } from '@/types/WorkoutsTypes'
 
 const props = defineProps<{
 	workout: Workout
-	id: string
 }>()
 
 const storeWorkouts = useStoreWorkouts()
 const previewWorkout = ref(false)
 
 const selectWorkout = () => {
-	storeWorkouts.selectWorkout(props.id)
+	storeWorkouts.selectWorkout(props.workout.id)
 	previewWorkout.value = false
 }
 </script>

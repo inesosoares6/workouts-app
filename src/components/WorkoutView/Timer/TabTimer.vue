@@ -3,7 +3,7 @@
 	<v-row
 		align="center"
 		justify="center"
-		class="play-btns"
+		class="mt-1"
 	>
 		<ControlButtons
 			:isRunning="isRunning.value"
@@ -47,8 +47,4 @@ onMounted(() => {
 defineExpose({ isRunning, restartTimer })
 </script>
 
-<style scoped lang="css">
-.play-btns {
-	margin-top: 22px;
-}
-</style>
+<style scoped lang="css"></style>

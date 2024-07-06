@@ -3,7 +3,6 @@
 	<v-row
 		align="center"
 		justify="center"
-		style="margin-top: 10px"
 	>
 		<DisplaySetsCycles
 			text="Sets"

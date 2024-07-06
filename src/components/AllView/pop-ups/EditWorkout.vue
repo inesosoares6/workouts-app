@@ -18,7 +18,6 @@ import { Workout } from '@/types/WorkoutsTypes'
 
 const props = defineProps<{
 	workout: Workout
-	id: string
 }>()
 
 const storeWorkouts = useStoreWorkouts()
@@ -27,14 +26,10 @@ const editWorkout = ref(false)
 const updateWorkout = (workout: Workout) => {
 	editWorkout.value = false
 	storeWorkouts.updateWorkout({
-		id: props.id,
+		id: props.workout.id,
 		updates: workout
 	})
 }
 </script>
 
-<style lang="css">
-.v-card-title {
-	margin-top: 10px;
-}
-</style>
+<style scoped lang="css"></style>

@@ -79,10 +79,6 @@ const addRecord = () => {
 </script>
 
 <style scoped lang="css">
-.v-card-title {
-	margin-top: 10px;
-}
-
 .v-text-field :deep(input::-webkit-outer-spin-button),
 .v-text-field :deep(input::-webkit-inner-spin-button) {
 	appearance: none !important;

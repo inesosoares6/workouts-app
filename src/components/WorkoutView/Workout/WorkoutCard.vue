@@ -36,14 +36,12 @@
 				size="small"
 			>
 				<v-icon>mdi-dots-vertical</v-icon>
-				<WorkoutDetails
-					:workout="currentWorkout"
-					:id="storeWorkouts.currentWorkoutId"
-				/>
+				<WorkoutDetails :workout="currentWorkout" />
 			</v-btn>
 		</v-col>
 		<v-card-text
-			class="exercises"
+			class="text-center"
+			style="font-size: 20px"
 			v-html="currentWorkout.exercises.replaceAll('\n', '<br/>')"
 		/>
 		<v-col>
@@ -134,10 +132,5 @@ onMounted(() => {
 	position: absolute;
 	top: 100px;
 	left: 5px;
-}
-
-.exercises {
-	text-align: center;
-	font-size: 20px;
 }
 </style>

@@ -32,8 +32,11 @@
 				</v-toolbar-items>
 			</v-toolbar>
 
-			<v-list>
-				<v-timeline align="start">
+			<v-list class="px-3">
+				<v-timeline
+					align="start"
+					truncate-line="both"
+				>
 					<v-timeline-item
 						v-for="(item, index) in storeApp.timeline"
 						:key="index"

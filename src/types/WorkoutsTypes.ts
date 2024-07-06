@@ -5,6 +5,7 @@ export type Workout = {
 	time: number
 	completions: number
 	exercises: string
+  details: string
 }
 
 export type Summary = {

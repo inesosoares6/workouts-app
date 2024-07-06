@@ -4,17 +4,13 @@
 		v-model="showWorkoutDone"
 		activator="parent"
 	>
-		<v-card
-			class="workouts-done-card"
-			style="overflow-y: auto"
-		>
+		<v-card style="overflow-y: auto">
 			<template v-slot:prepend>
 				<v-icon color="secondary">mdi-history</v-icon>
 			</template>
 			<template v-slot:title>
 				{{ selectedDay.day + ' Workouts' }}
 			</template>
-			<v-divider thickness="0px" />
 			<div class="scroll-view">
 				<div
 					v-for="(workout, index) in getWorkoutsDone()"
@@ -61,7 +57,8 @@ const getWorkoutsDone = () =>
 		props.selectedDay.workoutsId.includes(wod.id)
 	)
 </script>
-<style>
+
+<style scoped lang="css">
 .scroll-view {
 	max-height: 500px;
 	overflow-y: auto;

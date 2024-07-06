@@ -4,10 +4,9 @@
 		activator="parent"
 	>
 		<AddEditWorkoutForm
-			:title="'Add'"
-			:workout="{}"
-			:buttonText="'Add'"
-			v-on:submit-workout="submitWorkout"
+			title="Add"
+			buttonText="Add"
+			@submit-workout="submitWorkout"
 		/>
 	</v-dialog>
 </template>
@@ -25,8 +24,4 @@ const submitWorkout = (workout: Workout) => {
 }
 </script>
 
-<style scoped lang="css">
-.v-card-title {
-	margin-top: 10px;
-}
-</style>
+<style scoped lang="css"></style>

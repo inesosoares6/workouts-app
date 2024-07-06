@@ -10,7 +10,6 @@
 				<v-text-field
 					v-model="workoutEdited.name"
 					label="Name"
-					:rules="[(v: string) => !!v || 'Required']"
 					required
 					autofocus
 				/>
@@ -19,7 +18,6 @@
 						<v-select
 							v-model="workoutEdited.type"
 							:items="types"
-							:rules="[(v: any) => !!v || 'Required']"
 							label="Type"
 							required
 						/>
@@ -37,16 +35,13 @@
 				<v-text-field
 					v-else
 					v-model="newType"
-					:rules="[(v: any) => !!v || 'Required']"
 					label="Type"
 					required
-					autofocus
 				/>
 				<v-row>
 					<v-col>
 						<v-text-field
 							v-model="workoutEdited.time"
-							:rules="[(v: number) => v >= 0 || 'Must be >= 0']"
 							type="number"
 							label="Time (min)"
 							required
@@ -56,7 +51,6 @@
 						<v-text-field
 							v-model="workoutEdited.completions"
 							type="number"
-							:rules="[(v: number) => v >= 0 || 'Must be >= 0']"
 							label="Completions"
 							required
 						/>
@@ -64,7 +58,6 @@
 				</v-row>
 				<v-textarea
 					v-model="workoutEdited.exercises"
-					:rules="[(v: string) => !!v || 'Required']"
 					label="Exercises"
 					required
 					hide-details
@@ -98,13 +91,19 @@ const storeWorkouts = useStoreWorkouts()
 
 const props = defineProps<{
 	title: string
-	workout: Workout
+	workout?: Workout
 	buttonText: string
 }>()
 
 const emit = defineEmits(['submit-workout'])
 
-const workoutEdited = ref()
+const workoutEdited = ref({
+	name: '',
+	type: '',
+	time: 0,
+	completions: 0,
+	exercises: ''
+})
 const newType = ref('')
 const valid = ref(true)
 const formRef = ref(null)
@@ -112,17 +111,13 @@ const showNewType = ref(false)
 
 const types = computed(() => storeWorkouts.getTypes)
 
-onMounted(() => {
-	workoutEdited.value = { ...props.workout }
-})
-
 const submitWorkout = () => {
 	// @ts-ignore
 	formRef.value.validate()
 	if (valid.value) {
-		workoutEdited.value.type = showNewType.value
-			? newType.value
-			: workoutEdited.value.type
+		workoutEdited.value.type = workoutEdited.value.type
+			? workoutEdited.value.type
+			: newType.value
 		emit('submit-workout', workoutEdited.value)
 	}
 }
@@ -142,6 +137,12 @@ const resetForm = () => {
 	// @ts-ignore
 	formRef.value.reset()
 }
+
+onMounted(() => {
+	if (props.workout) {
+		workoutEdited.value = { ...props.workout }
+	}
+})
 </script>
 
 <style scoped>

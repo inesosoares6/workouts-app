@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <template>
 	<v-dialog
 		v-model="workoutDetails"
@@ -27,9 +28,10 @@
 					<v-icon>mdi-minus</v-icon>
 				</v-btn>
 			</template>
-			<v-card-text v-if="workout.details !== undefined">
-				{{ workout.details }}
-			</v-card-text>
+			<v-card-text
+				v-if="workout.details !== undefined"
+				v-html="workout.details.replaceAll('\n', '<br/>')"
+			/>
 			<v-card-text v-else-if="!addDetails">
 				Click on the add button to add details to this workout.
 			</v-card-text>
@@ -69,7 +71,6 @@ const storeWorkouts = useStoreWorkouts()
 
 const props = defineProps<{
 	workout: Workout
-	id: string
 }>()
 
 const workoutDetails = ref(false)
@@ -83,7 +84,7 @@ onMounted(() => {
 
 const saveDetails = () => {
 	storeWorkouts.updateWorkout({
-		id: props.id,
+		id: props.workout.id,
 		updates: {
 			details: details.value
 		}

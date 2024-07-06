@@ -57,8 +57,4 @@ const addObjective = () => {
 }
 </script>
 
-<style scoped lang="css">
-.v-card-title {
-	margin-top: 10px;
-}
-</style>
+<style scoped lang="css"></style>
