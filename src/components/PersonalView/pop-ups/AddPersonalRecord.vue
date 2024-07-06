@@ -4,8 +4,8 @@
 		activator="parent"
 	>
 		<v-card>
-			<v-card-title>Add Personal Record</v-card-title>
-			<v-card-text>
+			<template v-slot:title>Add Personal Record</template>
+			<v-card-text class="pb-0 mt-2">
 				<v-form ref="form">
 					<v-text-field
 						v-model="record.name"
@@ -53,13 +53,13 @@
 
 <script setup lang="ts">
 import { useStoreUser } from '@/stores/user'
-import { PersonalRecord } from '@/types/PersonalTypes';
+import { PersonalRecord } from '@/types/PersonalTypes'
 
 const storeUser = useStoreUser()
 const addPersonalRecord = ref(false)
 const clearRecord = () => {
 	return {
-    id: '',
+		id: '',
 		name: '',
 		value: [],
 		reps: [],

@@ -8,7 +8,7 @@
 		:options="
 			input === 'measurement'
 				? chartOptionsWithTarget
-				: Object.keys(personalValue.value).length === 1
+				: personalValue.value.length === 1
 				? chartOptionsWithoutTarget
 				: chartOptions
 		"
@@ -30,9 +30,10 @@ const props = defineProps<{
 	color: string
 }>()
 
-const getMinMax = (value: number[], target: number) => {
-	const max = Math.max(...[Math.max(...[...value, target])])
-	const min = Math.min(...[Math.min(...[...value, target])])
+const getMinMax = (value: number[], target?: number) => {
+	const targetValue = target ?? (value.at(-1) as number)
+	const max = Math.max(...[Math.max(...[...value, targetValue])])
+	const min = Math.min(...[Math.min(...[...value, targetValue])])
 	return min === max ? [min - 10, max + 10] : [min, max]
 }
 
@@ -61,7 +62,7 @@ const chartOptions = ref({
 			show: false
 		}
 	},
-	colors: props.color,
+	colors: [props.color],
 	tooltip: {
 		theme: 'dark'
 	},
@@ -93,8 +94,8 @@ const chartOptions = ref({
 
 const chartOptionsWithoutTarget = ref({
 	yaxis: {
-		min: getMinMax(props.personalValue.value, props.personalValue.value[-1])[0],
-		max: getMinMax(props.personalValue.value, props.personalValue.value[-1])[1]
+		min: getMinMax(props.personalValue.value)[0],
+		max: getMinMax(props.personalValue.value)[1]
 	},
 	...chartOptions.value
 })
@@ -125,9 +126,9 @@ watch(
 	() => [props.color, props.personalValue],
 	() => {
 		if (props.input === 'measurement') {
-			chartOptionsWithTarget.value.colors = props.color
+			chartOptionsWithTarget.value.colors = [props.color]
 		} else {
-			chartOptions.value.colors = props.color
+			chartOptions.value.colors = [props.color]
 		}
 	}
 )

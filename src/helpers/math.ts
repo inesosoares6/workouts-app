@@ -6,8 +6,8 @@ export const getRM = (
 	index: number
 ) => {
 	return Math.round(
-		((personalValue.value[index] /
-			(1.0278 - 0.0278 * personalValue.reps[index])) *
+		(((personalValue.value.at(index) as number) /
+			(1.0278 - 0.0278 * (personalValue.reps.at(index) as number))) *
 			percentage) /
 			100
 	)

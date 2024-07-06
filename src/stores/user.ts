@@ -1,5 +1,6 @@
 import { Measurement, Objective, PersonalRecord } from '@/types/PersonalTypes'
 import { defineStore } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 
 interface State {
 	personalRecords: PersonalRecord[]
@@ -39,17 +40,17 @@ export const useStoreUser = defineStore('user', {
 		},
 
 		addPR(record: PersonalRecord) {
-			this.personalRecords.push(record)
+			this.personalRecords.push({ ...record, id: uuidv4() })
 			this.writeInDB(1)
 		},
 
 		addMeasurement(measurement: Measurement) {
-			this.measurements.push(measurement)
+			this.measurements.push({ ...measurement, id: uuidv4() })
 			this.writeInDB(2)
 		},
 
 		addObjective(objective: Objective) {
-			this.objectives.push(objective)
+			this.objectives.push({ ...objective, id: uuidv4() })
 			this.writeInDB(3)
 		},
 
