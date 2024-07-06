@@ -6,46 +6,33 @@
 
 		<template v-slot:title>WODs Summary</template>
 
-		<v-card-text>
-			<v-row class="center-btns">
-				<v-col class="done-todo">
+		<v-card-text class="mt-2">
+			<v-row>
+				<v-col
+					class="d-flex flex-column ga-3 align-center font-weight-regular bigger-text"
+					v-for="(info, index) in summaryInfo"
+					:key="index"
+				>
 					<v-avatar
 						size="60"
-						:color="'secondary'"
+						:color="info.color"
 					>
-						{{ getWorkoutSummary.done }}
+						{{ info.data }}
 					</v-avatar>
-					<br />
-					<v-divider thickness="0px" />
-					Done
-				</v-col>
-				<v-col class="done-todo">
-					<v-avatar
-						size="60"
-						:color="'error'"
-					>
-						{{ getWorkoutSummary.todo }}
-					</v-avatar>
-					<br />
-					<v-divider thickness="0px" />
-					To Do
+					{{ info.label }}
 				</v-col>
 			</v-row>
 			<v-divider
 				v-if="getWorkoutSummary.types.length"
-				class="divider"
-				thickness="1px"
-				style="margin-top: 15px; margin-bottom: 15px"
+				class="my-4"
 			/>
 			<v-slide-group>
 				<v-slide-group-item
 					v-for="(item, index) in getWorkoutSummary.types"
 					:key="index"
 				>
-					<div class="types-avatar">
-						<v-avatar :color="'secondary'">{{ item.value }}</v-avatar>
-						<br />
-						<v-divider thickness="0px" />
+					<div class="d-flex flex-column my-4 ga-2 align-center">
+						<v-avatar color="secondary">{{ item.value }}</v-avatar>
 						{{ item.type }}
 					</div>
 				</v-slide-group-item>
@@ -60,22 +47,24 @@ import { storeToRefs } from 'pinia'
 
 const storeWorkouts = useStoreWorkouts()
 const { getWorkoutSummary } = storeToRefs(storeWorkouts)
+
+const summaryInfo = computed(() => [
+	{
+		label: 'Done',
+		data: getWorkoutSummary.value.done,
+		color: 'secondary'
+	},
+	{
+		label: 'To Do',
+		data: getWorkoutSummary.value.todo,
+		color: 'error'
+	}
+])
 </script>
 
 <style scoped lang="css">
-.center-btns {
-	text-align: center;
-}
-
-.done-todo {
+.bigger-text {
 	font-size: 20px;
-	font-weight: bold;
-}
-
-.types-avatar {
-	text-align: center;
-	margin-right: 15px;
-	margin-left: 15px;
 }
 
 .v-slide-group__content {

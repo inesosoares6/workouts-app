@@ -15,7 +15,7 @@
 			</v-btn>
 		</template>
 
-		<v-card-text class="pa-0 mx-3 mb-3">
+		<v-card-text class="mt-2">
 			<v-timeline
 				direction="horizontal"
 				line-inset="8"

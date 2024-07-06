@@ -14,7 +14,7 @@
 			</v-btn>
 		</template>
 
-		<v-card-text>
+		<v-card-text class="mt-2">
 			<v-row>
 				<v-col>
 					<v-text-field
