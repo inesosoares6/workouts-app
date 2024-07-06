@@ -4,10 +4,7 @@
 		v-model="previewWorkout"
 		activator="parent"
 	>
-		<v-card
-			:title="workout.name"
-			:subtitle="workout.type + ' - ' + workout.time + ' min'"
-		>
+		<v-card>
 			<template v-slot:prepend>
 				<v-icon
 					size="small"
@@ -16,20 +13,26 @@
 					mdi-weight-lifter
 				</v-icon>
 			</template>
+			<template v-slot:title>
+				{{ workout.name }}
+			</template>
+			<template v-slot:subtitle>
+				{{ `${workout.type} - ${workout.time} min` }}
+			</template>
 			<template v-slot:append>
 				<v-btn
 					icon
 					color="grey"
 				>
 					<v-icon>mdi-pencil</v-icon>
-					<EditWorkout
-						:workout="workout"
-					/>
+					<EditWorkout :workout="workout" />
 				</v-btn>
 			</template>
 			<v-card-text v-html="workout.exercises.replaceAll('\n', '<br/>')" />
 			<v-card-actions>
-				<span class="doneText">Done {{ workout.completions }} times!</span>
+				<span class="ml-3 text-error">
+					Done {{ workout.completions }} times!
+				</span>
 				<v-spacer />
 				<v-btn
 					color="secondary"
@@ -59,10 +62,3 @@ const selectWorkout = () => {
 	previewWorkout.value = false
 }
 </script>
-
-<style scoped lang="css">
-.doneText {
-	color: #ffcc80;
-	margin-left: 10px;
-}
-</style>

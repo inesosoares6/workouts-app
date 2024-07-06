@@ -20,22 +20,17 @@
 				<AddPersonalRecord />
 			</v-btn>
 		</template>
-		<div v-if="storeUser.personalRecords.length">
+		<div v-if="personalRecords.length">
 			<v-divider />
 			<v-card-text>
 				<v-list>
 					<v-list-item
-						v-for="(record, index) in storeUser.personalRecords"
+						v-for="(record, index) in personalRecords"
 						:key="index"
 						:value="record"
-						:title="
-							record.name +
-							': ' +
-							record.value.at(-1) +
-							' kg - ' +
-							record.reps.at(-1) +
-							' reps'
-						"
+						:title="`${record.name}: ${record.value.at(
+							-1
+						)} kg - ${record.reps.at(-1)} reps`"
 						rounded="xl"
 					>
 						<template v-slot:prepend>
@@ -58,8 +53,7 @@
 						</template>
 						<EditPersonalValue
 							:personalValue="record"
-							:id="index"
-							:input="'record'"
+							:input="PersonalValue.RECORD"
 							:color="getColor(record, false)"
 						/>
 					</v-list-item>
@@ -73,8 +67,11 @@
 import { getRM } from '@/helpers/math'
 import { useStoreUser } from '@/stores/user'
 import { PersonalRecord } from '@/types/PersonalTypes'
+import { PersonalValue } from '@/enums/PersonalEnums'
 
 const storeUser = useStoreUser()
+
+const personalRecords = computed(() => storeUser.personalRecords)
 
 const getColor = (array: PersonalRecord, avatar: boolean) => {
 	if (array.value.length === 1) return avatar ? 'secondary' : '#03dac5'

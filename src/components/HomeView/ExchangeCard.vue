@@ -1,11 +1,7 @@
 <template>
 	<v-card>
 		<template v-slot:prepend>
-			<v-icon
-				color="secondary"
-			>
-				mdi-swap-horizontal
-			</v-icon>
+			<v-icon color="secondary">mdi-swap-horizontal</v-icon>
 		</template>
 		<template v-slot:title>Exchange Workouts</template>
 
@@ -18,7 +14,7 @@
 					>
 						Send
 						<PreviewList
-							v-if="Object.keys(allWorkouts).length > 0"
+							v-if="allWorkouts.length > 0"
 							:workouts="allWorkouts"
 							action="export"
 							@downloaded-workouts="downloadedWorkouts"
@@ -40,14 +36,15 @@
 
 	<PreviewList
 		v-model="imported"
-		v-if="imported && Object.keys(importedWorkouts).length"
+		v-if="imported && importedWorkouts.length"
 		:workouts="importedWorkouts"
-		action="import"
+		:action="FileAction.IMPORT"
 	/>
 </template>
 
 <script setup lang="ts">
 import { useStoreWorkouts } from '@/stores/workouts'
+import { FileAction } from '@/enums/HomeEnums'
 
 const storeWorkouts = useStoreWorkouts()
 const importedWorkouts = ref()
@@ -59,7 +56,7 @@ const emit = defineEmits(['show-snackbar'])
 
 const downloadedWorkouts = (fileName: string) => {
 	if (fileName !== '') {
-		emit('show-snackbar', fileName + ' exported to Documents folder.')
+		emit('show-snackbar', `${fileName} exported to Documents folder.`)
 	}
 }
 

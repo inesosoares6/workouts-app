@@ -1,15 +1,12 @@
 <!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <template>
-	<v-card
-		v-if="currentWorkout !== undefined"
-		:title="currentWorkout.name"
-	>
+	<v-card v-if="currentWorkout">
+		<template v-slot:title>
+			{{ currentWorkout.name }}
+		</template>
 		<template v-slot:subtitle>
-			{{ currentWorkout.type + ' - ' + currentWorkout.time + ' min' }}
-			<EditWorkout
-				v-bind:workout="currentWorkout"
-				v-bind:id="storeWorkouts.currentWorkoutId"
-			/>
+			{{ `${currentWorkout.type} - ${currentWorkout.time} min` }}
+			<EditWorkout :workout="currentWorkout" />
 		</template>
 		<template v-slot:prepend>
 			<v-icon
@@ -30,7 +27,7 @@
 		<v-divider />
 		<v-col>
 			<v-btn
-				class="details-button"
+				style="position: absolute; top: 100px; left: 5px"
 				icon
 				flat
 				size="small"
@@ -46,7 +43,7 @@
 		/>
 		<v-col>
 			<v-btn
-				class="floating-button"
+				style="position: absolute; bottom: 5px; right: 5px"
 				flat
 				icon
 				size="small"
@@ -71,6 +68,7 @@ import { useStoreApp } from '@/stores/app'
 import { useStoreWorkouts } from '@/stores/workouts'
 
 const storeWorkouts = useStoreWorkouts()
+const storeApp = useStoreApp()
 
 const checkbox = ref(false)
 const snackbar = ref(false)
@@ -107,7 +105,6 @@ const updateWorkout = () => {
 				completions: currentWorkout.value.completions + 1
 			}
 		})
-		const storeApp = useStoreApp()
 		storeApp.updateTimeline(
 			new Date().toDateString().substring(0, 3),
 			storeWorkouts.currentWorkoutId
@@ -120,17 +117,3 @@ onMounted(() => {
 	text.value = 'No workout selected'
 })
 </script>
-
-<style scoped lang="css">
-.floating-button {
-	position: absolute;
-	bottom: 5px;
-	right: 5px;
-}
-
-.details-button {
-	position: absolute;
-	top: 100px;
-	left: 5px;
-}
-</style>

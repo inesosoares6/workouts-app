@@ -7,7 +7,7 @@
 	>
 		<v-card
 			id="element-to-convert"
-			:class="theme.global.name === 'dark' ? 'DARK' : 'LIGHT'"
+			:class="theme.global.name.toLocaleUpperCase()"
 		>
 			<v-toolbar>
 				<v-btn
@@ -32,7 +32,7 @@
 				</v-toolbar-items>
 			</v-toolbar>
 
-			<v-list class="px-3">
+			<v-list class="px-5 mb-5">
 				<v-timeline
 					align="start"
 					truncate-line="both"
@@ -45,7 +45,8 @@
 					>
 						<template v-slot:opposite>
 							<div
-								:class="`pt-1 headline font-weight-bold text-${item.color}`"
+								class="pt-1 headline font-weight-bold"
+								:class="`text-${item.color}`"
 								v-text="item.day"
 							/>
 						</template>
@@ -53,19 +54,15 @@
 							v-for="(workout, index) in getWorkoutsDone(item)"
 							:key="index"
 							width="95%"
+							class="d-flex flex-column ga-1 text-center mb-2"
 						>
-							<h2
-								:class="`mt-n1 headline font-weight-light mb-2 text-${item.color}`"
-							>
+							<h2 class="font-weight-light text-secondary">
 								{{ workout.name }}
 							</h2>
-							<h5 :class="`mt-n1 font-weight-light mb-2 text-grey`">
-								{{ workout.type + ' - ' + workout.time + ' min' }}
+							<h5 class="font-weight-light text-grey">
+								{{ `${workout.type} - ${workout.time} min` }}
 							</h5>
-							<div
-								class="mb-4"
-								v-html="workout.exercises.replaceAll('\n', '<br/>')"
-							/>
+							<div v-html="workout.exercises.replaceAll('\n', '<br/>')" />
 							<v-divider />
 						</div>
 					</v-timeline-item>
@@ -77,7 +74,6 @@
 <script setup lang="ts">
 import { useStoreApp } from '@/stores/app'
 import { useStoreWorkouts } from '@/stores/workouts'
-import { Workout } from '@/types/WorkoutsTypes'
 // import { html2pdf } from 'html2pdf-ts'
 import { useTheme } from 'vuetify'
 
@@ -94,12 +90,9 @@ const storeWorkouts = useStoreWorkouts()
 const dialog = ref(false)
 
 const getWorkoutsDone = (selectedDay: { workoutsId: string[] }) => {
-	let workoutsList: Workout[] = []
-	selectedDay.workoutsId.forEach((id: string) => {
-		const index = storeWorkouts.allWorkouts.findIndex(wod => wod.id === id)
-		workoutsList.push(storeWorkouts.allWorkouts[index])
-	})
-	return workoutsList
+	return storeWorkouts.allWorkouts.filter(wod =>
+		selectedDay.workoutsId.includes(wod.id)
+	)
 }
 
 const printReport = () => {

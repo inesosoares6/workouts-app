@@ -68,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import { Measures, Units } from '@/enums/PersonalEnums'
 import { useStoreUser } from '@/stores/user'
 import { Measurement } from '@/types/PersonalTypes'
 
@@ -98,35 +99,28 @@ const addRecord = () => {
 }
 
 const getItems = () => {
-	if (measurement.value.name === 'Weight' || measurement.value.name === 'MIG') {
-		measurement.value.unit = 'kg'
-		return ['kg']
-	} else if (measurement.value.name === 'Skinfold') {
-		measurement.value.unit = 'mm'
-		return ['mm']
-	} else if (measurement.value.name === 'Waist/Height') {
-		measurement.value.unit = '%'
-		return ['%']
+	if (
+		measurement.value.name === Measures.WEIGHT ||
+		measurement.value.name === Measures.MIG
+	) {
+		measurement.value.unit = Units.MASS
+		return [Units.MASS]
+	} else if (measurement.value.name === Measures.SKINFOLD) {
+		measurement.value.unit = Units.SKINFOLD
+		return [Units.SKINFOLD]
+	} else if (measurement.value.name === Measures.WAIST_HEIGHT) {
+		measurement.value.unit = Units.PERCENTAGE
+		return [Units.PERCENTAGE]
 	} else {
-		return ['%', 'kg']
+		return [Units.PERCENTAGE, Units.MASS]
 	}
 }
 
 const getTypes = () => {
-	let types = [
-		'Weight',
-		'Body Fat',
-		'Muscle Mass',
-		'Skinfold',
-		'Waist/Height',
-		'MIG'
-	]
-	if (!Object.keys(storeUser.measurements).length) return types
-	Object.values(storeUser.measurements).forEach(record => {
-		const index = types.indexOf(record.name)
-		if (index > -1) {
-			types.splice(index, 1)
-		}
+	let types = Object.values(Measures)
+	if (!storeUser.measurements.length) return types
+	storeUser.measurements.forEach(record => {
+		types = types.filter(type => record.name !== type)
 	})
 	if (types.length === 1) {
 		measurement.value.name = types[0]

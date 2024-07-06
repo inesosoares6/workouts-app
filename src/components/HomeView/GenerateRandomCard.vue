@@ -20,14 +20,13 @@
 					<v-text-field
 						v-model="time"
 						type="number"
-						:rules="[(v: number) => v >= 0 || 'Time must be greater than 0']"
 						label="Max time (min)"
+						hide-details
 						required
 					/>
 				</v-col>
-				<v-col class="d-flex justify-center">
+				<v-col class="d-flex justify-center align-center">
 					<v-btn
-						class="go-btn"
 						prepend-icon="mdi-weight-lifter"
 						color="secondary"
 						@click="generateWorkout"
@@ -54,31 +53,27 @@ const emit = defineEmits(['show-snackbar'])
 const getWODs = computed(() => storeWorkouts.getWODs)
 
 const generateValidWorkoutsList = (): Workout[] => {
+	if (!time.value) return getWODs.value
 	return getWODs.value.filter(workout => workout.time <= time.value)
 }
 
 const generateWorkout = () => {
-	if (!time.value) return getWODs.value
 	const validList = generateValidWorkoutsList()
 	if (validList.length > 0) {
 		storeWorkouts.selectWorkout(
 			validList[Math.floor(Math.random() * validList.length)].id
 		)
-		router.push({ name: 'WorkoutView' })
+		router.push('WorkoutView')
 	} else {
 		emit(
 			'show-snackbar',
-			'There is no workout with less than ' + time.value + ' minutes.'
+			`There is no workout with less than ${time.value} minutes.`
 		)
 	}
 }
 </script>
 
 <style scoped lang="css">
-.go-btn {
-	margin-top: 10px;
-}
-
 .v-text-field :deep(input::-webkit-outer-spin-button),
 .v-text-field :deep(input::-webkit-inner-spin-button) {
 	appearance: none !important;

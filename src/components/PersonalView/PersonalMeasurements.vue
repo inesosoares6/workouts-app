@@ -6,7 +6,7 @@
 		<template v-slot:title>Measurements</template>
 		<template v-slot:append>
 			<v-btn
-				v-show="Object.keys(measurements).length < 6"
+				v-show="measurements.length < 6"
 				icon
 				flat
 				size="35"
@@ -18,60 +18,58 @@
 		<div v-if="measurements.length">
 			<v-divider />
 			<v-card-text>
-				<div class="">
-					<v-row>
-						<v-col
-							v-for="(record, index) in measurements"
-							:key="index"
-							class="d-flex flex-column ga-2 align-center text-center"
-							cols="4"
+				<v-row>
+					<v-col
+						v-for="(record, index) in measurements"
+						:key="index"
+						class="d-flex flex-column ga-2 align-center text-center"
+						cols="4"
+					>
+						<v-progress-circular
+							:rotate="360"
+							:size="80"
+							:width="10"
+							:model-value="calculatePercentage(record)"
+							:color="getMeasurementColor(record)"
 						>
-							<v-progress-circular
-								:rotate="360"
-								:size="80"
-								:width="10"
-								:model-value="calculatePercentage(record)"
-								:color="getMeasurementColor(record)"
+							{{ record.value[record.value.length - 1] }}
+							{{ record.unit }}
+						</v-progress-circular>
+						<EditPersonalValue
+							:personalValue="record"
+							:input="PersonalValue.MEASUREMENT"
+							:color="convertColor(getMeasurementColor(record))"
+						/>
+						<p
+							class="mt-1"
+							style="font-size: 105%"
+						>
+							{{ record.name }}
+						</p>
+						<div>
+							<v-btn
+								icon
+								flat
+								size="x-small"
 							>
-								{{ record.value[record.value.length - 1] }}
-								{{ record.unit }}
-							</v-progress-circular>
-							<EditPersonalValue
-								:personalValue="record"
-								:input="PersonalValue.MEASUREMENT"
-								:color="convertColor(getMeasurementColor(record))"
-							/>
-							<p
-								class="mt-1"
-								style="font-size: 105%"
+								<v-icon color="grey">mdi-pencil</v-icon>
+								<EditPersonalValue
+									:personalValue="record"
+									:input="PersonalValue.MEASUREMENT"
+									:color="convertColor(getMeasurementColor(record))"
+								/>
+							</v-btn>
+							<v-btn
+								icon
+								flat
+								size="x-small"
+								@click="storeUser.deleteMeasurement(record.id, false)"
 							>
-								{{ record.name }}
-							</p>
-							<div>
-								<v-btn
-									icon
-									flat
-									size="x-small"
-								>
-									<v-icon color="grey">mdi-pencil</v-icon>
-									<EditPersonalValue
-										:personalValue="record"
-										:input="PersonalValue.MEASUREMENT"
-										:color="convertColor(getMeasurementColor(record))"
-									/>
-								</v-btn>
-								<v-btn
-									icon
-									flat
-									size="x-small"
-									@click="storeUser.deleteMeasurement(record.id, false)"
-								>
-									<v-icon color="red">mdi-delete</v-icon>
-								</v-btn>
-							</div>
-						</v-col>
-					</v-row>
-				</div>
+								<v-icon color="red">mdi-delete</v-icon>
+							</v-btn>
+						</div>
+					</v-col>
+				</v-row>
 			</v-card-text>
 		</div>
 	</v-card>
@@ -80,15 +78,18 @@
 <script setup lang="ts">
 import { useStoreUser } from '@/stores/user'
 import { Measurement } from '@/types/PersonalTypes'
-import { PersonalValue } from '@/enums/PersonalEnums'
+import { Measures, PersonalValue, Units } from '@/enums/PersonalEnums'
 
 const storeUser = useStoreUser()
 const measurements = computed(() => storeUser.measurements)
 
 const calculatePercentage = (measurement: Measurement) => {
-	if (measurement.unit === '%') return measurement.value[-1]
+	if (measurement.unit === Units.PERCENTAGE) return measurement.value[-1]
 
-	if (measurement.name === 'Weight' || measurement.name === 'Skinfold') {
+	if (
+		measurement.name === Measures.WEIGHT ||
+		measurement.name === Measures.SKINFOLD
+	) {
 		if (measurement.target > measurement.value[-1]) {
 			// Overweight
 			return (measurement.value[-1] / measurement.target) * 100
@@ -99,7 +100,7 @@ const calculatePercentage = (measurement: Measurement) => {
 	} else {
 		// Muscle Mass, MIG or Body Fat (in kg)
 		const totalWeight = measurements.value.find(
-			item => item.name === 'Weight'
+			item => item.name === Measures.WEIGHT
 		)?.value
 		return Math.round(
 			(measurement.value[-1] / (totalWeight as number[])[-1]) * 100
@@ -110,13 +111,13 @@ const calculatePercentage = (measurement: Measurement) => {
 const getMeasurementColor = (measurement: Measurement) => {
 	if (measurement.value.length < 2) return 'secondary'
 	switch (measurement.name) {
-		case 'Weight':
+		case Measures.WEIGHT:
 			return Math.abs(measurement.value[-1] - measurement.target) <=
 				Math.abs(measurement.value[-2] - measurement.target)
 				? 'secondary'
 				: 'error'
-		case 'MIG':
-		case 'Muscle Mass':
+		case Measures.MIG:
+		case Measures.MUSCLE_MASS:
 			return measurement.value[-1] > measurement.value[-2]
 				? 'secondary'
 				: 'error'

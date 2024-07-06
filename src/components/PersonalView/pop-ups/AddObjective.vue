@@ -56,5 +56,3 @@ const addObjective = () => {
 	addObjectiveModal.value = false
 }
 </script>
-
-<style scoped lang="css"></style>

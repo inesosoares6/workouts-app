@@ -123,14 +123,14 @@
 </template>
 
 <script setup lang="ts">
-import { PersonalValue } from '@/enums/PersonalEnums';
+import { PersonalValue } from '@/enums/PersonalEnums'
 import { useStoreUser } from '@/stores/user'
 import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
 const storeUser = useStoreUser()
 const props = defineProps<{
 	personalValue: PersonalRecord | Measurement
-	input: string
+	input: PersonalValue
 	color: string
 }>()
 

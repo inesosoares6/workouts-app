@@ -23,5 +23,3 @@ const submitWorkout = (workout: Workout) => {
 	storeWorkouts.addWorkout(workout)
 }
 </script>
-
-<style scoped lang="css"></style>

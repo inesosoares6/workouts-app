@@ -1,5 +1,5 @@
-const wodsTypes = ['AFAP', 'WOD', 'I GO U GO', 'EMOM', 'AMRAP']
+import { WODs } from '@/enums/WorkoutEnums'
 
-export const isWOD = (workoutType: string) => {
-	return wodsTypes.includes(workoutType)
+export const isWOD = (workoutType: WODs) => {
+	return Object.values(WODs).includes(workoutType)
 }

@@ -3,7 +3,8 @@
 		v-model="previewList"
 		activator="parent"
 	>
-		<v-card title="Select Workouts">
+		<v-card>
+			<template v-slot:title>Select Workouts</template>
 			<template v-slot:append>
 				<v-checkbox
 					v-model="selectedAll"
@@ -11,11 +12,10 @@
 					@change="updateCheckboxes(selectedAll)"
 				/>
 			</template>
-			<v-card-text>
+			<v-card-text class="py-0">
 				<v-list
-					class="preview-wod-list"
-					lines="two"
 					v-if="workouts.length"
+					lines="two"
 				>
 					<v-list-item
 						v-for="(workout, key) in workouts"
@@ -23,7 +23,7 @@
 						:value="workout"
 						rounded="xl"
 						:title="workout.name"
-						:subtitle="workout.type + ' - ' + workout.time + ' min'"
+						:subtitle="`${workout.type} - ${workout.time} min`"
 					>
 						<template v-slot:prepend>
 							<v-avatar :color="workout.completions ? 'secondary' : 'error'">
@@ -43,7 +43,7 @@
 			<v-card-actions>
 				<v-spacer />
 				<v-btn
-					v-if="action === 'export'"
+					v-if="action === FileAction.EXPORT"
 					color="secondary"
 					:disabled="!selected.length"
 				>
@@ -70,6 +70,7 @@
 import { useRouter } from 'vue-router'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { Workout } from '@/types/WorkoutsTypes'
+import { FileAction } from '@/enums/HomeEnums'
 
 const storeWorkouts = useStoreWorkouts()
 const router = useRouter()
@@ -108,10 +109,3 @@ onMounted(() => {
 	updateCheckboxes(false)
 })
 </script>
-
-<style scoped lang="css">
-.preview-wod-list {
-	max-height: 500px;
-	overflow-y: auto;
-}
-</style>

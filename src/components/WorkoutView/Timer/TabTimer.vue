@@ -46,5 +46,3 @@ onMounted(() => {
 
 defineExpose({ isRunning, restartTimer })
 </script>
-
-<style scoped lang="css"></style>

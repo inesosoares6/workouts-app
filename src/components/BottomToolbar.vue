@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-const activeItem = ref('home')
 const buttons = ref([
 	{
 		title: 'Home',
@@ -47,11 +46,5 @@ const buttons = ref([
 		value: 'user'
 	}
 ])
+const activeItem = ref(buttons.value[0].value)
 </script>
-
-<style scoped>
-.v-icon {
-	font-size: 16px;
-	margin-bottom: 5px;
-}
-</style>

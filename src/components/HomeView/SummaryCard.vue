@@ -9,9 +9,10 @@
 		<v-card-text class="mt-2">
 			<v-row>
 				<v-col
-					class="d-flex flex-column ga-3 align-center font-weight-regular bigger-text"
 					v-for="(info, index) in summaryInfo"
 					:key="index"
+					class="d-flex flex-column ga-3 align-center font-weight-regular"
+					style="font-size: 20px"
 				>
 					<v-avatar
 						size="60"
@@ -63,10 +64,6 @@ const summaryInfo = computed(() => [
 </script>
 
 <style scoped lang="css">
-.bigger-text {
-	font-size: 20px;
-}
-
 .v-slide-group__content {
 	justify-content: center;
 }

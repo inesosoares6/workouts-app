@@ -28,11 +28,11 @@
 					:dot-color="timeline[index].color"
 					@click="handleTimelineItemClick(item)"
 				>
-					<template v-if="index % 2 !== 0">
+					<template v-if="index % 2">
 						{{ item.day.substring(0, 3) }}
 					</template>
 					<template
-						v-if="index % 2 === 0"
+						v-if="!(index % 2)"
 						v-slot:opposite
 					>
 						{{ item.day.substring(0, 3) }}
@@ -63,10 +63,3 @@ const handleTimelineItemClick = (item: DayData) => {
 	selectedDay.value = item
 }
 </script>
-
-<style scoped lang="css">
-.workouts-done-card {
-	max-height: 600px;
-	overflow-y: auto;
-}
-</style>

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { isWOD } from '@/helpers/utils'
 import { Summary, Workout } from '@/types/WorkoutsTypes'
+import { WODs } from '@/enums/WorkoutEnums'
 
 interface State {
 	allWorkouts: Workout[]
@@ -18,7 +19,7 @@ export const useStoreWorkouts = defineStore('workouts', {
 	getters: {
 		getCurrentWorkout: state =>
 			state.allWorkouts.filter(wod => wod.id === state.currentWorkoutId)[0],
-		getWODs: state => state.allWorkouts.filter(wod => isWOD(wod.type)),
+		getWODs: state => state.allWorkouts.filter(wod => isWOD(wod.type as WODs)),
 		getTypes: state => {
 			const types: string[] = []
 			state.allWorkouts.forEach(workout => {
@@ -36,7 +37,7 @@ export const useStoreWorkouts = defineStore('workouts', {
 				types: []
 			}
 			state.allWorkouts.forEach(workout => {
-				if (!isWOD(workout.type)) return
+				if (!isWOD(workout.type as WODs)) return
 				if (workout.completions === 0) {
 					summary.todo++
 				} else {

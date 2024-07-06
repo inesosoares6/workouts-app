@@ -6,30 +6,19 @@
 	>
 		<v-card
 			title="Workout Details"
-			:subtitle="
-				workout.name + ': ' + workout.type + ' - ' + workout.time + ' min'
-			"
+			:subtitle="`${workout.name}: ${workout.type} - ${workout.time} min`"
 		>
 			<template v-slot:append>
 				<v-btn
-					v-if="!addDetails"
 					icon
 					flat
-					@click="addDetails = true"
+					@click="addDetails = !addDetails"
 				>
-					<v-icon>mdi-plus</v-icon>
-				</v-btn>
-				<v-btn
-					v-else
-					icon
-					flat
-					@click="addDetails = false"
-				>
-					<v-icon>mdi-minus</v-icon>
+					<v-icon>mdi-{{ addDetails ? 'minus' : 'plus' }}</v-icon>
 				</v-btn>
 			</template>
 			<v-card-text
-				v-if="workout.details !== undefined"
+				v-if="workout?.details"
 				v-html="workout.details.replaceAll('\n', '<br/>')"
 			/>
 			<v-card-text v-else-if="!addDetails">
@@ -45,7 +34,7 @@
 			<v-card-actions>
 				<v-spacer />
 				<v-btn
-					v-if="details !== '' && addDetails"
+					v-if="details && addDetails"
 					color="secondary"
 					@click="saveDetails"
 				>

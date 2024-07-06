@@ -1,9 +1,9 @@
 <template>
 	<v-snackbar
 		v-model="snackbar"
-		:timeout="props.timeout"
+		:timeout="timeout"
 	>
-		{{ props.text }}
+		{{ text }}
 		<template v-slot:actions>
 			<v-btn
 				color="error"
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
 	timeout: number
 	text: string
 }>()

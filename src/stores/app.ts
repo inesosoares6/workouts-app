@@ -81,7 +81,10 @@ export const useStoreApp = defineStore('app', {
 
 		updateTimeline(day: string, workoutId: string) {
 			this.timeline.forEach(item => {
-				if (item.day.substring(0, 3) === day) {
+				if (
+					item.day.substring(0, 3) === day &&
+					!item.workoutsId.includes(workoutId)
+				) {
 					item.color = 'secondary'
 					item.workoutsId.push(workoutId)
 				}

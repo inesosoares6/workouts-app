@@ -1,22 +1,18 @@
 <template>
 	<div
-		class="timer-text"
-		justify="center"
+		class="d-flex justify-center text-center pa-2 ga-4"
+		style="font-size: 40px"
 	>
 		<span>{{ time.minutes }}</span>
-		&nbsp;:&nbsp;
+		<span>:</span>
 		<span>{{ time.seconds }}</span>
 	</div>
 </template>
 
 <script setup lang="ts">
-defineProps(['time'])
-</script>
+import { ResUseStopwatch, UseTimer } from 'vue-timer-hook'
 
-<style scoped lang="css">
-.timer-text {
-	padding: 10px 10px 10px 10px;
-	text-align: center;
-	font-size: 40px;
-}
-</style>
+defineProps<{
+	time: ResUseStopwatch | UseTimer
+}>()
+</script>

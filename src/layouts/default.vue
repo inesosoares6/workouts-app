@@ -4,7 +4,6 @@
 		<v-main>
 			<router-view />
 		</v-main>
-
 		<BottomToolbar />
 	</v-app>
 </template>

@@ -1,11 +1,10 @@
 <template>
 	<v-container>
+		<ListByTypes v-if="storeApp.groupByType" />
 		<ListWorkouts
-			v-if="!storeApp.groupByType"
+			v-else
 			:list="storeWorkouts.allWorkouts"
 		/>
-
-		<ListByTypes v-else />
 
 		<div class="floating-button">
 			<v-btn
@@ -38,7 +37,7 @@ const storeWorkouts = useStoreWorkouts()
 const snackbar = ref(false)
 
 onMounted(() => {
-	snackbar.value = storeWorkouts.allWorkouts.length < 1
+	snackbar.value = !storeWorkouts.allWorkouts.length
 })
 </script>
 

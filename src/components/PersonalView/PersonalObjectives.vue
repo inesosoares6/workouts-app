@@ -2,7 +2,7 @@
 	<v-card title="Objectives">
 		<template v-slot:prepend>
 			<v-progress-circular
-				v-if="Object.keys(objectives).length > 0"
+				v-if="objectives.length"
 				v-model="progress"
 				class="me-2"
 				:color="progress == 100 ? 'secondary' : 'primary'"
@@ -26,7 +26,7 @@
 			</v-btn>
 		</template>
 
-		<div v-if="objectives.length > 0">
+		<div v-if="objectives.length">
 			<v-divider />
 			<v-card>
 				<v-slide-y-transition
@@ -98,12 +98,11 @@ const storeUser = useStoreUser()
 const objectives = computed(() => storeUser.getObjectivesSorted)
 
 const completedTasks = computed(
-	() =>
-		Object.values(objectives.value).filter(objective => objective.done).length
+	() => objectives.value.filter(objective => objective.done).length
 )
 
 const progress = computed(
-	() => (completedTasks.value / Object.values(objectives.value).length) * 100
+	() => (completedTasks.value / objectives.value.length) * 100
 )
 
 const medalAnimation = async () => {

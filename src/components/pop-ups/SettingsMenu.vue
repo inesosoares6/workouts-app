@@ -57,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+import { ThemeValue } from '@/enums/AppEnums'
 import { useStoreApp } from '@/stores/app'
 import { useTheme } from 'vuetify'
 
@@ -74,7 +75,7 @@ const groupByTypeFunction = () => {
 }
 
 const toggleTheme = () => {
-	emit('toggle-theme', isDarkMode.value ? 'dark' : 'light')
+	emit('toggle-theme', isDarkMode.value ? ThemeValue.DARK : ThemeValue.LIGHT)
 }
 
 const deleteAllCache = () => {
@@ -82,7 +83,7 @@ const deleteAllCache = () => {
 }
 
 onMounted(() => {
-	isDarkMode.value = theme.value.global.name === 'dark'
+	isDarkMode.value = theme.value.global.name === ThemeValue.DARK
 })
 
 onUpdated(() => {
@@ -90,4 +91,3 @@ onUpdated(() => {
 })
 </script>
 
-<style scoped lang="css"></style>

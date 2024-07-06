@@ -2,34 +2,38 @@
 	<v-btn
 		v-for="(button, index) in buttons"
 		:key="index"
-		class="stopwatch-btns"
+		class="mx-1 mb-3"
 		size="x-small"
 		color="grey"
 		icon
-		@click="$emit(button)"
+		@click="handleAction(button)"
 	>
-		<v-icon>{{ button === 'reload' ? `mdi-${button}` : buttonIcon }}</v-icon>
+		<v-icon>
+			{{ button === TimerControls.RELOAD ? `mdi-${button}` : buttonIcon }}
+		</v-icon>
 	</v-btn>
 </template>
 
 <script setup lang="ts">
+import { TimerControls } from '@/enums/WorkoutEnums'
+
 const props = defineProps<{
 	isRunning: boolean
 }>()
 
-defineEmits(['play', 'pause', 'reload'])
+const emit = defineEmits(Object.values(TimerControls))
 
-const buttons = computed(() =>
-	props.isRunning ? ['pause', 'reload'] : ['play', 'reload']
+const buttons: ComputedRef<TimerControls[]> = computed(() =>
+	props.isRunning
+		? [TimerControls.PAUSE, TimerControls.RELOAD]
+		: [TimerControls.PLAY, TimerControls.RELOAD]
 )
 
-const buttonIcon = computed(() => (props.isRunning ? 'mdi-pause' : 'mdi-play'))
-</script>
+const buttonIcon = computed(
+	() => `mdi-${props.isRunning ? TimerControls.PAUSE : TimerControls.PLAY}`
+)
 
-<style scoped lang="css">
-.stopwatch-btns {
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 10px;
+const handleAction = (button: TimerControls) => {
+	emit(button)
 }
-</style>
+</script>

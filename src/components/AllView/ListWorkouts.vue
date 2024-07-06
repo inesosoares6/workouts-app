@@ -1,11 +1,11 @@
 <template>
 	<v-list lines="two">
 		<v-list-item
-			v-for="(workout, key) in props.list"
+			v-for="(workout, key) in list"
 			:key="key"
 			:value="workout"
 			:title="workout.name"
-			:subtitle="workout.type + ' - ' + workout.time + ' min'"
+			:subtitle="`${workout.type} - ${workout.time} min`"
 			rounded="xl"
 		>
 			<PreviewWorkout :workout="workout" />
@@ -34,7 +34,7 @@ import { useStoreWorkouts } from '@/stores/workouts'
 import { Workout } from '@/types/WorkoutsTypes'
 
 const storeWorkouts = useStoreWorkouts()
-const props = defineProps<{
+defineProps<{
 	list: Workout[]
 }>()
 </script>

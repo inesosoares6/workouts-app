@@ -31,5 +31,3 @@ const updateWorkout = (workout: Workout) => {
 	})
 }
 </script>
-
-<style scoped lang="css"></style>

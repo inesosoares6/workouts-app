@@ -34,7 +34,7 @@
 				<v-card-text class="d-flex justify-center">
 					<div class="border">
 						<VueQRCodeComponent
-							class="qrcode"
+							class="pa-5"
 							:text="JSON.stringify(workoutList)"
 							:size="200"
 						/>
@@ -98,9 +98,5 @@ const downloadFile = async () => {
 	flex: center;
 	width: 240px;
 	background-color: white;
-}
-
-.qrcode {
-	padding: 20px 20px 20px 20px;
 }
 </style>

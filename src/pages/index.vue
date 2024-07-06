@@ -1,16 +1,10 @@
 <template>
-	<v-container>
+	<v-container class="d-flex flex-column ga-4">
 		<SummaryCard />
-
-		<v-divider thickness="0px" />
 
 		<GenerateRandomCard @show-snackbar="showSnackbar" />
 
-		<v-divider thickness="0px" />
-
 		<WeekOverviewCard />
-
-		<v-divider thickness="0px" />
 
 		<ExchangeCard @show-snackbar="showSnackbar" />
 
@@ -32,15 +26,3 @@ const showSnackbar = (payload: string) => {
 	text.value = payload
 }
 </script>
-
-<style>
-.v-divider {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.title-icon {
-	margin-top: 10px;
-	font-size: 23px;
-}
-</style>

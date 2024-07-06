@@ -19,7 +19,7 @@
 						align="center"
 						justify="center"
 					>
-						<div class="left-column">
+						<div style="width: 45%; margin-right: 2.5%">
 							<div
 								v-for="(item, index) in Object.values(tabata)"
 								:key="index"
@@ -36,7 +36,7 @@
 							</div>
 						</div>
 
-						<div class="right-column">
+						<div style="width: 45%; margin-right: 2.5%">
 							<div
 								v-for="(item, index) in Object.values(tabata)"
 								:key="index"
@@ -85,16 +85,6 @@ const returnTabata = () => {
 </script>
 
 <style scoped lang="css">
-.left-column {
-	width: 45%;
-	margin-right: 2.5%;
-}
-
-.right-column {
-	width: 45%;
-	margin-right: 2.5%;
-}
-
 .v-text-field :deep(input::-webkit-outer-spin-button),
 .v-text-field :deep(input::-webkit-inner-spin-button) {
 	appearance: none !important;

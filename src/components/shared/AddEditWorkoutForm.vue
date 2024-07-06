@@ -1,6 +1,6 @@
 <template>
 	<v-card>
-		<v-card-title>{{ title }} Workout</v-card-title>
+		<template v-slot:title>{{ title }} Workout</template>
 		<v-card-text>
 			<v-form
 				ref="formRef"
@@ -19,6 +19,7 @@
 							v-model="workoutEdited.type"
 							:items="types"
 							label="Type"
+							hide-details
 							required
 						/>
 					</v-col>
@@ -145,10 +146,7 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.v-row {
-	margin: -12px;
-}
+<style scoped lang="css">
 .v-text-field :deep(input::-webkit-outer-spin-button),
 .v-text-field :deep(input::-webkit-inner-spin-button) {
 	appearance: none !important;

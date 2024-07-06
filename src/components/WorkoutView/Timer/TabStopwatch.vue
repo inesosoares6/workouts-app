@@ -31,4 +31,3 @@ const handleReload = () => {
 defineExpose({ isRunning })
 </script>
 
-<style scoped lang="css"></style>
