@@ -11,6 +11,7 @@
 			:key="index"
 			:value="button.value"
 			:to="button.to"
+			:width="`${100 / buttons?.length}%`"
 		>
 			<v-icon>{{ button.icon }}</v-icon>
 			{{ button.title }}
@@ -40,10 +41,10 @@ const buttons = ref([
 		value: 'all'
 	},
 	{
-		title: 'Personal',
+		title: 'User',
 		icon: 'mdi-account',
 		to: 'PersonalView',
-		value: 'personal'
+		value: 'user'
 	}
 ])
 </script>
