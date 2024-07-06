@@ -25,25 +25,25 @@
 				<AddObjective />
 			</v-btn>
 		</template>
-		<v-divider />
 
-		<v-card v-if="Object.keys(objectives).length > 0">
-			<v-slide-y-transition
-				class="py-0"
-				group
-				tag="v-list"
-			>
-				<template
-					v-for="(objective, id) in objectives"
-					:key="id"
+		<div v-if="objectives.length > 0">
+			<v-divider />
+			<v-card>
+				<v-slide-y-transition
+					class="py-0"
+					group
+					tag="v-list"
 				>
-					<v-list-item>
+					<v-list-item
+						v-for="(objective, index) in objectives"
+						:key="index"
+					>
 						<v-list-item-action>
 							<v-checkbox
 								v-model="objective.done"
 								:color="(objective.done && 'secondary') || 'primary'"
 								hideDetails
-								@click="storeUser.updateObjective(id)"
+								@click="storeUser.updateObjective(objective.id)"
 							>
 								<template v-slot:label>
 									<div
@@ -67,7 +67,7 @@
 								<v-icon
 									v-if="!objective.done"
 									color="red"
-									@click="storeUser.deleteObjective(id)"
+									@click="storeUser.deleteObjective(objective.id)"
 								>
 									mdi-delete
 								</v-icon>
@@ -82,9 +82,9 @@
 							</v-btn>
 						</template>
 					</v-list-item>
-				</template>
-			</v-slide-y-transition>
-		</v-card>
+				</v-slide-y-transition>
+			</v-card>
+		</div>
 	</v-card>
 </template>
 

@@ -15,57 +15,65 @@
 				<AddMeasurement />
 			</v-btn>
 		</template>
-		<v-divider />
-		<v-card-text>
-			<div class="text-center">
-				<v-row class="center-btns">
-					<v-col
-						class="measurements"
-						v-for="(record, index) in measurements"
-						:key="index"
-					>
-						<v-progress-circular
-							:rotate="360"
-							:size="80"
-							:width="10"
-							:model-value="calculatePercentage(record)"
-							:color="getMeasurementColor(record)"
+		<div v-if="measurements.length">
+			<v-divider />
+			<v-card-text>
+				<div class="">
+					<v-row>
+						<v-col
+							v-for="(record, index) in measurements"
+							:key="index"
+							class="d-flex flex-column ga-2 align-center text-center"
+							cols="4"
 						>
-							{{ record.value[record.value.length - 1] }}
-							{{ record.unit }}
-						</v-progress-circular>
-						<EditPersonalValue
-							:personalValue="record"
-							input="measurement"
-							:color="convertColor(getMeasurementColor(record))"
-						/>
-						<br />
-						<v-divider thickness="0px" />
-						<p style="font-size: 105%">{{ record.name }}</p>
-						<v-btn
-							icon
-							flat
-							size="x-small"
-						>
-							<v-icon color="grey">mdi-pencil</v-icon>
+							<v-progress-circular
+								:rotate="360"
+								:size="80"
+								:width="10"
+								:model-value="calculatePercentage(record)"
+								:color="getMeasurementColor(record)"
+							>
+								{{ record.value[record.value.length - 1] }}
+								{{ record.unit }}
+							</v-progress-circular>
 							<EditPersonalValue
 								:personalValue="record"
 								input="measurement"
 								:color="convertColor(getMeasurementColor(record))"
 							/>
-						</v-btn>
-						<v-btn
-							icon
-							flat
-							size="x-small"
-							@click="storeUser.deleteMeasurement(record.id, false)"
-						>
-							<v-icon color="red">mdi-delete</v-icon>
-						</v-btn>
-					</v-col>
-				</v-row>
-			</div>
-		</v-card-text>
+							<p
+								class="mt-1"
+								style="font-size: 105%"
+							>
+								{{ record.name }}
+							</p>
+							<div>
+								<v-btn
+									icon
+									flat
+									size="x-small"
+								>
+									<v-icon color="grey">mdi-pencil</v-icon>
+									<EditPersonalValue
+										:personalValue="record"
+										input="measurement"
+										:color="convertColor(getMeasurementColor(record))"
+									/>
+								</v-btn>
+								<v-btn
+									icon
+									flat
+									size="x-small"
+									@click="storeUser.deleteMeasurement(record.id, false)"
+								>
+									<v-icon color="red">mdi-delete</v-icon>
+								</v-btn>
+							</div>
+						</v-col>
+					</v-row>
+				</div>
+			</v-card-text>
+		</div>
 	</v-card>
 </template>
 

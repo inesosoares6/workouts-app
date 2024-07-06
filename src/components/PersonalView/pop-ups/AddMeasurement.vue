@@ -4,8 +4,8 @@
 		activator="parent"
 	>
 		<v-card>
-			<v-card-title>Add Measurement</v-card-title>
-			<v-card-text>
+			<template v-slot:title>Add Measurement</template>
+			<v-card-text class="pb-0 mt-2">
 				<v-form ref="form">
 					<v-row>
 						<v-col>

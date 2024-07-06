@@ -1,9 +1,7 @@
 <template>
-	<v-container>
+	<v-container class="d-flex flex-column ga-4">
 		<PersonalRecords />
-		<v-divider thickness="0px" />
 		<PersonalMeasurements />
-		<v-divider thickness="0px" />
 		<PersonalObjectives />
 	</v-container>
 </template>
