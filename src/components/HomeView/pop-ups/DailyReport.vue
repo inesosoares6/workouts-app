@@ -6,16 +6,13 @@
 	>
 		<v-card
 			class="workouts-done-card"
-			:title="selectedDay.day + ' Workouts'"
 			style="overflow-y: auto"
 		>
 			<template v-slot:prepend>
-				<v-icon
-					class="title-icon"
-					color="secondary"
-				>
-					mdi-history
-				</v-icon>
+				<v-icon color="secondary">mdi-history</v-icon>
+			</template>
+			<template v-slot:title>
+				{{ selectedDay.day + ' Workouts' }}
 			</template>
 			<v-divider thickness="0px" />
 			<div class="scroll-view">
@@ -50,21 +47,18 @@
 
 <script setup lang="ts">
 import { useStoreWorkouts } from '@/stores/workouts'
+import { DayData } from '@/types/GeneralTypes'
 
 const storeWorkouts = useStoreWorkouts()
 const props = defineProps<{
-	selectedDay: {
-		day: string
-		color: string
-		workoutsIds: string[]
-	}
+	selectedDay: DayData
 }>()
 
 const showWorkoutDone = ref(false)
 
 const getWorkoutsDone = () =>
 	storeWorkouts.allWorkouts.filter(wod =>
-		props.selectedDay.workoutsIds.includes(wod.id)
+		props.selectedDay.workoutsId.includes(wod.id)
 	)
 </script>
 <style>

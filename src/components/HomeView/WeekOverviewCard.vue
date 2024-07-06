@@ -1,25 +1,21 @@
 <template>
-	<v-card title="Week Overview">
+	<v-card>
 		<template v-slot:prepend>
-			<v-icon
-				class="title-icon"
-				color="secondary"
+			<v-icon color="secondary">mdi-checkbox-marked-circle-outline</v-icon>
+		</template>
+		<template v-slot:title>Week Overview</template>
+		<template v-slot:append>
+			<v-btn
+				icon
+				flat
+				size="small"
 			>
-				mdi-checkbox-marked-circle-outline
-			</v-icon>
+				<v-icon color="secondary">mdi-format-list-bulleted</v-icon>
+				<WeeklyReport />
+			</v-btn>
 		</template>
 
-		<v-btn
-			class="print-button"
-			icon
-			flat
-			size="small"
-		>
-			<v-icon color="secondary">mdi-format-list-bulleted</v-icon>
-			<WeeklyReport />
-		</v-btn>
-
-		<v-card-text class="pa-0 ml-3 mr-3 mb-3">
+		<v-card-text class="pa-0 mx-3 mb-3">
 			<v-timeline
 				direction="horizontal"
 				line-inset="8"
@@ -54,26 +50,21 @@
 
 <script setup lang="ts">
 import { useStoreApp } from '@/stores/app'
+import { DayData } from '@/types/GeneralTypes'
 
-const selectedDay = ref('')
+const selectedDay = ref()
 const showWorkoutDone = ref(false)
 
 const storeApp = useStoreApp()
 const timeline = computed(() => storeApp.timeline)
 
-const handleTimelineItemClick = (item: string) => {
+const handleTimelineItemClick = (item: DayData) => {
 	showWorkoutDone.value = true
 	selectedDay.value = item
 }
 </script>
 
 <style scoped lang="css">
-.print-button {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
 .workouts-done-card {
 	max-height: 600px;
 	overflow-y: auto;

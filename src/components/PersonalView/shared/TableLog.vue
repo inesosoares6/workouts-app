@@ -7,7 +7,7 @@
 			<tr>
 				<th class="text-center">Value</th>
 				<th class="text-center">
-					{{ personalValue?.reps ? 'Reps' : 'Date' }}
+					{{ (personalValue as PersonalRecord)?.reps ? 'Reps' : 'Date' }}
 				</th>
 			</tr>
 		</thead>
@@ -26,13 +26,14 @@
 </template>
 
 <script setup lang="ts">
-import { PersonalRecord } from '@/types/PersonalTypes'
+import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
 const props = defineProps<{
-	personalValue: PersonalRecord
+	personalValue: PersonalRecord | Measurement
 }>()
 
 const secondColumn = computed(
-	() => props.personalValue?.reps ?? props.personalValue?.date
+	() =>
+		(props.personalValue as PersonalRecord)?.reps ?? props.personalValue?.date
 )
 </script>

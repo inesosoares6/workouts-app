@@ -27,14 +27,14 @@
 							v-model="newValue"
 							label="New value"
 							type="number"
-							:suffix="personalValue.unit ?? 'kg'"
+							:suffix="(personalValue as Measurement)?.unit ?? 'kg'"
 						/>
 					</v-col>
 					<v-col>
 						<v-text-field
 							v-model="newTargetValue"
 							:label="isMeasurement ? 'New target' : 'Reps'"
-							:suffix="personalValue?.unit ?? ''"
+							:suffix="(personalValue as Measurement)?.unit ?? ''"
 							type="number"
 						/>
 					</v-col>
@@ -84,12 +84,12 @@
 					>
 						<v-container fluid>
 							<TableRM
-								:personalValue="personalValue"
+								:personalValue="(personalValue as PersonalRecord)"
 								:headerArray="[100, 90, 80, 70, 60]"
 							/>
 							<v-divider />
 							<TableRM
-								:personalValue="personalValue"
+								:personalValue="(personalValue as PersonalRecord)"
 								:headerArray="[50, 40, 30, 20, 10]"
 							/>
 						</v-container>
@@ -124,14 +124,13 @@
 
 <script setup lang="ts">
 import { useStoreUser } from '@/stores/user'
-import { Measurement, PersonalRecord } from '@/types/PersonalTypes';
+import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
 const storeUser = useStoreUser()
 const props = defineProps<{
-  personalValue: PersonalRecord | Measurement
-  input: string
-  color: string
-  id: string
+	personalValue: PersonalRecord | Measurement
+	input: string
+	color: string
 }>()
 
 const tab = ref(null)
@@ -145,9 +144,9 @@ const newTargetValue = ref(null)
 
 const deleteRecord = (lastEntry: boolean) => {
 	if (isMeasurement.value) {
-		storeUser.deleteMeasurement(props.id, lastEntry)
+		storeUser.deleteMeasurement(props.personalValue.id, lastEntry)
 	} else {
-		storeUser.deletePR(props.id, lastEntry)
+		storeUser.deletePR(props.personalValue.id, lastEntry)
 	}
 }
 
@@ -160,7 +159,7 @@ const updateRecord = () => {
 	else personalValueEdited.value.reps.push(newTargetValue.value)
 
 	storeUser.updateValue(props.input, {
-		id: props.id,
+		id: props.personalValue.id,
 		updates: personalValueEdited.value
 	})
 	newValue.value = null

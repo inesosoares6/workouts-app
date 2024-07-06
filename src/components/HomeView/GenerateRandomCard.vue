@@ -1,12 +1,17 @@
 <template>
-	<v-card title="Generate Random">
+	<v-card>
 		<template v-slot:prepend>
-			<v-icon
-				class="title-icon"
-				color="secondary"
+			<v-icon color="secondary">mdi-dumbbell</v-icon>
+		</template>
+		<template v-slot:title>Generate Random</template>
+		<template v-slot:append>
+			<v-btn
+				icon
+				flat
+				size="small"
 			>
-				mdi-dumbbell
-			</v-icon>
+				<v-icon color="secondary">mdi-tune</v-icon>
+			</v-btn>
 		</template>
 
 		<v-card-text>

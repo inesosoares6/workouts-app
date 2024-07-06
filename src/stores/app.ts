@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useStoreTimer } from '@/stores/timer'
 import { useStoreUser } from '@/stores/user'
 import { useStoreWorkouts } from '@/stores/workouts'
+import { DayData } from '@/types/GeneralTypes'
 
 const initialTimelineState = [
 	{
@@ -42,11 +43,7 @@ const initialTimelineState = [
 ]
 
 interface State {
-	timeline: {
-		day: string
-		color: string
-		workoutsId: string[]
-	}[]
+	timeline: DayData[]
 	weekNumber: number
 	groupByType: boolean
 }

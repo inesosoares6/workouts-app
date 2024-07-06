@@ -1,13 +1,9 @@
 <template>
-	<v-card title="Measurements">
+	<v-card>
 		<template v-slot:prepend>
-			<v-icon
-				class="title-icon"
-				color="secondary"
-			>
-				mdi-scale-bathroom
-			</v-icon>
+			<v-icon color="secondary">mdi-scale-bathroom</v-icon>
 		</template>
+		<template v-slot:title>Measurements</template>
 		<template v-slot:append>
 			<v-btn
 				v-show="Object.keys(measurements).length < 6"
@@ -40,8 +36,7 @@
 						</v-progress-circular>
 						<EditPersonalValue
 							:personalValue="record"
-							:id="index"
-							:input="'measurement'"
+							input="measurement"
 							:color="convertColor(getMeasurementColor(record))"
 						/>
 						<br />
@@ -55,8 +50,7 @@
 							<v-icon color="grey">mdi-pencil</v-icon>
 							<EditPersonalValue
 								:personalValue="record"
-								:id="index"
-								:input="'measurement'"
+								input="measurement"
 								:color="convertColor(getMeasurementColor(record))"
 							/>
 						</v-btn>
@@ -64,7 +58,7 @@
 							icon
 							flat
 							size="x-small"
-							@click="storeUser.deleteMeasurement(index, false)"
+							@click="storeUser.deleteMeasurement(record.id, false)"
 						>
 							<v-icon color="red">mdi-delete</v-icon>
 						</v-btn>
@@ -125,6 +119,6 @@ const getMeasurementColor = (measurement: Measurement) => {
 }
 
 const convertColor = (color: string) => {
-	return color === 'secondary' ? ['#03dac5'] : ['#cf6679']
+	return color === 'secondary' ? '#03dac5' : '#cf6679'
 }
 </script>

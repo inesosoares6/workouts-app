@@ -75,15 +75,15 @@
 import { useStoreApp } from '@/stores/app'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { Workout } from '@/types/WorkoutsTypes'
-import { html2pdf } from 'html2pdf-ts'
+// import { html2pdf } from 'html2pdf-ts'
 import { useTheme } from 'vuetify'
 
 const theme = ref(useTheme())
 
-const date = new Date().toString().split(' ')
-const dateStructured = ref(
-	date[0] + ', ' + date[2] + ' ' + date[1] + ' ' + date[3]
-)
+// const date = new Date().toString().split(' ')
+// const dateStructured = ref(
+// 	date[0] + ', ' + date[2] + ' ' + date[1] + ' ' + date[3]
+// )
 
 const storeApp = useStoreApp()
 const storeWorkouts = useStoreWorkouts()
@@ -100,21 +100,21 @@ const getWorkoutsDone = (selectedDay: { workoutsId: string[] }) => {
 }
 
 const printReport = () => {
-	html2pdf.createPDF(
-		document.getElementById('element-to-convert')?.outerHTML as string,
-		{
-			format: 'A4',
-			filePath: `Weekly Report - ${dateStructured.value}.pdf`,
-			landscape: false,
-			protect: {
-				password: '1234'
-			},
-			resolution: {
-				height: 1920,
-				width: 1080
-			}
-		}
-	)
+	// html2pdf.createPDF(
+	// 	document.getElementById('element-to-convert')?.outerHTML as string,
+	// 	{
+	// 		format: 'A4',
+	// 		filePath: `Weekly Report - ${dateStructured.value}.pdf`,
+	// 		landscape: false,
+	// 		protect: {
+	// 			password: '1234'
+	// 		},
+	// 		resolution: {
+	// 			height: 1920,
+	// 			width: 1080
+	// 		}
+	// 	}
+	// )
 }
 </script>
 

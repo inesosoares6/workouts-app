@@ -1,13 +1,10 @@
 <template>
-	<v-card title="WODs Summary">
+	<v-card>
 		<template v-slot:prepend>
-			<v-icon
-				class="title-icon"
-				color="secondary"
-			>
-				mdi-clipboard-check-multiple-outline
-			</v-icon>
+			<v-icon color="secondary">mdi-clipboard-check-multiple-outline</v-icon>
 		</template>
+
+		<template v-slot:title>WODs Summary</template>
 
 		<v-card-text>
 			<v-row class="center-btns">
@@ -35,6 +32,7 @@
 				</v-col>
 			</v-row>
 			<v-divider
+				v-if="getWorkoutSummary.types.length"
 				class="divider"
 				thickness="1px"
 				style="margin-top: 15px; margin-bottom: 15px"
