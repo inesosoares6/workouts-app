@@ -4,12 +4,12 @@
 		activator="parent"
 	>
 		<v-card>
-			<v-card-title>Settings</v-card-title>
-			<v-card-text style="padding: 0px 20px 0px 20px">
+			<template v-slot:title>Settings</template>
+			<v-card-text class="pb-0">
 				<v-list>
 					<v-list-item
 						title="Dark Mode"
-						style="padding: 0px"
+						class="pa-0"
 					>
 						<template v-slot:append>
 							<v-switch
@@ -23,7 +23,7 @@
 					</v-list-item>
 					<v-list-item
 						title="Group workouts by type"
-						style="padding: 0px"
+						class="pa-0"
 					>
 						<template v-slot:append>
 							<v-switch
@@ -38,16 +38,16 @@
 				</v-list>
 			</v-card-text>
 			<v-divider />
-			<v-card-text style="padding: 0px 20px 0px 20px">
+			<v-card-text class="py-0">
 				<v-list lines="two">
 					<v-list-item
 						title="Delete all cache"
 						subtitle="This will delete all the stored data"
-						style="padding: 0px"
+						class="pa-0"
 						@click="deleteAllCache"
 					>
 						<template v-slot:append>
-							<v-icon class="material-icons">mdi-chevron-right</v-icon>
+							<v-icon>mdi-chevron-right</v-icon>
 						</template>
 					</v-list-item>
 				</v-list>
@@ -69,14 +69,6 @@ const theme = ref(useTheme())
 
 const emit = defineEmits(['toggle-theme'])
 
-onMounted(() => {
-	isDarkMode.value = theme.value.global.name === 'dark'
-})
-
-onUpdated(() => {
-	groupByTypeEnabled.value = storeApp.groupByType
-})
-
 const groupByTypeFunction = () => {
 	storeApp.groupByTypeFunction(groupByTypeEnabled.value)
 }
@@ -88,20 +80,14 @@ const toggleTheme = () => {
 const deleteAllCache = () => {
 	storeApp.deleteAllCache()
 }
+
+onMounted(() => {
+	isDarkMode.value = theme.value.global.name === 'dark'
+})
+
+onUpdated(() => {
+	groupByTypeEnabled.value = storeApp.groupByType
+})
 </script>
 
-<style>
-.v-divider {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.v-row {
-	margin-top: 10px;
-}
-
-.material-icons {
-	margin-right: 5px;
-	margin-top: 20px;
-}
-</style>
+<style scoped lang="css"></style>

@@ -3,7 +3,7 @@
 		v-model="tabataSettings"
 		activator="parent"
 	>
-		<v-card :title="'Tabata Settings'">
+		<v-card>
 			<template v-slot:prepend>
 				<v-icon
 					size="small"
@@ -12,7 +12,8 @@
 					mdi-camera-timer
 				</v-icon>
 			</template>
-			<v-card-text>
+			<template v-slot:title>Tabata Settings</template>
+			<v-card-text class="mt-3 pb-0">
 				<v-form ref="form">
 					<v-row
 						align="center"
@@ -84,10 +85,6 @@ const returnTabata = () => {
 </script>
 
 <style scoped lang="css">
-.v-card-text {
-	margin-top: 15px;
-}
-
 .left-column {
 	width: 45%;
 	margin-right: 2.5%;
