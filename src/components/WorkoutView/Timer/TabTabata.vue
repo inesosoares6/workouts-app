@@ -7,7 +7,7 @@
 		<DisplaySetsCycles
 			text="Sets"
 			:currentValue="currentSet"
-			:totalValue="storeTimer.tabata.sets.value"
+			:totalValue="tabata.sets.value"
 		/>
 		<v-col
 			cols="6"
@@ -23,7 +23,7 @@
 		<DisplaySetsCycles
 			text="Cycles"
 			:currentValue="currentCycle"
-			:totalValue="storeTimer.tabata.cycles.value"
+			:totalValue="tabata.cycles.value"
 		/>
 	</v-row>
 </template>
@@ -33,6 +33,7 @@ import { useTimer } from 'vue-timer-hook'
 import { useStoreTimer } from '@/stores/timer'
 import audioFileFinish from '@/assets/finish.mp3'
 import audioFileBuzzer from '@/assets/buzzer.mp3'
+import { TabataMode, TabataStatus } from '@/enums/WorkoutEnums'
 
 const storeTimer = useStoreTimer()
 
@@ -40,9 +41,27 @@ const currentSet = ref(0)
 const currentCycle = ref(0)
 const tabataMode = ref(0)
 let tabataTime = new Date()
-tabataTime.setSeconds(
-	tabataTime.getSeconds() + storeTimer.tabata.prepareTime.value
-)
+
+const tabata = computed(() => storeTimer.tabata)
+
+const isRunning = computed(() => tabataTimer.isRunning)
+
+const tabataStatus = computed(() => {
+	switch (tabataMode.value) {
+		case TabataMode.PREPARE:
+			return TabataStatus.PREPARE
+		case TabataMode.WORK:
+			return TabataStatus.WORK
+		case TabataMode.REST_BETWEEN_CYCLES:
+		case TabataMode.REST_BETWEEN_SETS:
+			return TabataStatus.REST
+		case TabataMode.FINISHED:
+			return TabataStatus.FINISHED
+	}
+	return null
+})
+
+tabataTime.setSeconds(tabataTime.getSeconds() + tabata.value.prepareTime.value)
 let tabataTimer = useTimer(+tabataTime)
 tabataTimer.pause()
 
@@ -53,7 +72,7 @@ const restartTabata = (time: number) => {
 	tabataTimer.pause()
 }
 const resetTabata = () => {
-	restartTabata(storeTimer.tabata.prepareTime.value)
+	restartTabata(tabata.value.prepareTime.value)
 	currentCycle.value = 0
 	currentSet.value = 0
 	tabataMode.value = 0
@@ -70,41 +89,44 @@ onMounted(() => {
 		const audioBuzzer = new Audio(audioFileBuzzer)
 		if (tabataTimer.isExpired.value) {
 			switch (tabataMode.value) {
-				case 0: // PREPARE
+				case TabataMode.PREPARE:
 					currentCycle.value = 1
 					currentSet.value = 1
-					goToState(storeTimer.tabata.workTime.value, 1)
+					goToState(tabata.value.workTime.value, TabataMode.WORK)
 					audioBuzzer.play()
 					break
-				case 1: // WORK
+				case TabataMode.WORK:
 					if (
-						currentCycle.value === storeTimer.tabata.cycles.value &&
-						currentSet.value < storeTimer.tabata.sets.value
+						currentCycle.value === tabata.value.cycles.value &&
+						currentSet.value < tabata.value.sets.value
 					) {
 						audioBuzzer.play()
 						goToState(
-							storeTimer.tabata.restBetweenSets.value > 0
-								? storeTimer.tabata.restBetweenSets.value
-								: storeTimer.tabata.restTime.value,
-							3
+							tabata.value.restBetweenSets.value > 0
+								? tabata.value.restBetweenSets.value
+								: tabata.value.restTime.value,
+							TabataMode.REST_BETWEEN_SETS
 						)
-					} else if (currentCycle.value < storeTimer.tabata.cycles.value) {
+					} else if (currentCycle.value < tabata.value.cycles.value) {
 						audioBuzzer.play()
-						goToState(storeTimer.tabata.restTime.value, 2)
+						goToState(
+							tabata.value.restTime.value,
+							TabataMode.REST_BETWEEN_CYCLES
+						)
 					} else {
 						audioFinish.play()
-						tabataMode.value = 4
+						tabataMode.value = TabataMode.FINISHED
 					}
 					break
-				case 2: // REST BETWEEN CYCLES
-					currentCycle.value = currentCycle.value + 1
-					goToState(storeTimer.tabata.workTime.value, 1)
+				case TabataMode.REST_BETWEEN_CYCLES:
+					currentCycle.value++
+					goToState(tabata.value.workTime.value, TabataMode.WORK)
 					audioBuzzer.play()
 					break
-				case 3: // REST BETWEEN SETS
+				case TabataMode.REST_BETWEEN_SETS:
 					currentCycle.value = 1
-					currentSet.value = currentSet.value + 1
-					goToState(storeTimer.tabata.workTime.value, 1)
+					currentSet.value++
+					goToState(tabata.value.workTime.value, TabataMode.WORK)
 					audioBuzzer.play()
 					break
 			}
@@ -112,22 +134,13 @@ onMounted(() => {
 	})
 })
 
-const isRunning = computed(() => tabataTimer.isRunning)
-
-const tabataStatus = computed(() => {
-	switch (tabataMode.value) {
-		case 0:
-			return 'PREPARE'
-		case 1:
-			return 'WORK'
-		case 2:
-		case 3:
-			return 'REST'
-		case 4:
-			return 'FINISHED'
-	}
-	return ''
-})
+watch(
+	tabata,
+	() => {
+		resetTabata()
+	},
+	{ deep: true }
+)
 
 defineExpose({ isRunning, tabataStatus, resetTabata })
 </script>

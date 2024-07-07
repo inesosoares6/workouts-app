@@ -46,7 +46,7 @@
 					class="mr-1"
 				>
 					<v-icon>mdi-cog</v-icon>
-					<TabataSettings @updateTimes="handleResetTabata" />
+					<TabataSettings  />
 				</v-btn>
 			</v-row>
 		</v-card-title>
@@ -86,7 +86,7 @@ const seconds = computed({
 		return storeTimer.getTimer
 	},
 	set(val) {
-		storeTimer.updateTimer(val)
+		storeTimer.updateTimer(+val)
 		// @ts-ignore
 		timerTabRef.value.restartTimer()
 	}
@@ -110,11 +110,6 @@ const tabataStatus = computed(
 		// @ts-ignore
 		tabataTabRef.value?.tabataStatus
 )
-
-const handleResetTabata = () => {
-	// @ts-ignore
-	tabataTabRef.resetTabata()
-}
 
 const getColor = computed(() => {
 	if (isRunning.value && mode.value !== TimerMode.TABATA) {

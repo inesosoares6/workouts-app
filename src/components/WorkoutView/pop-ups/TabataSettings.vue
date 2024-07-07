@@ -69,17 +69,17 @@
 </template>
 
 <script setup lang="ts">
+import { tabataDefault } from '@/mocks/TimerTemplates'
 import { useStoreTimer } from '@/stores/timer'
 
 const storeTimer = useStoreTimer()
-const tabata = ref({ ...storeTimer.tabata })
-const emit = defineEmits(['update-times'])
 
+const tabata = ref(tabataDefault)
 const tabataSettings = ref(false)
 
 const returnTabata = () => {
+	Object.values(tabata.value).map(item => (item.value = +item.value))
 	storeTimer.updateTabata(tabata.value)
-	emit('update-times')
 	tabataSettings.value = false
 }
 </script>

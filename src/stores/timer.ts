@@ -1,38 +1,6 @@
+import { tabataDefault } from '@/mocks/TimerTemplates'
 import { TabataSettings } from '@/types/TimerTypes'
 import { defineStore } from 'pinia'
-
-const tabataDefault = {
-	prepareTime: {
-		value: 5,
-		label: 'Get ready',
-		suffix: 's'
-	},
-	restBetweenSets: {
-		value: 5,
-		label: 'Rest between sets',
-		suffix: 's'
-	},
-	workTime: {
-		value: 5,
-		label: 'Work',
-		suffix: 's'
-	},
-	restTime: {
-		value: 5,
-		label: 'Rest',
-		suffix: 's'
-	},
-	cycles: {
-		value: 5,
-		label: 'Cycles',
-		suffix: ''
-	},
-	sets: {
-		value: 5,
-		label: 'Sets',
-		suffix: ''
-	}
-}
 
 interface State {
 	tabata: TabataSettings
