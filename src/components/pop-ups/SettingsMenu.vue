@@ -66,7 +66,7 @@
 					<v-list-item
 						title="Delete all cache"
 						subtitle="This will delete all the stored data"
-						class="pa-0"
+						class="pa-0 text-red-darken-3"
 						@click="deleteAllCache"
 					>
 						<template v-slot:append>
@@ -122,10 +122,6 @@ const saveAllCache = () => {
 const previewImportedData = (data: string) => {
 	importedData.value = JSON.parse(data)
 	imported.value = true
-}
-
-const importData = () => {
-	// storeApp.saveAllCache()
 }
 
 onMounted(() => {

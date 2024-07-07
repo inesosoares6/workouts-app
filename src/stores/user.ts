@@ -84,8 +84,27 @@ export const useStoreUser = defineStore('user', {
 			this.writeInDB(3)
 		},
 
+		importMeasurements(measurements: Measurement[]) {
+			measurements.forEach(item => {
+				this.addMeasurement({ ...item, id: uuidv4() })
+			})
+		},
+
+		importPersonalRecords(personalRecords: PersonalRecord[]) {
+			personalRecords.forEach(item => {
+				this.addPR({ ...item, id: uuidv4() })
+			})
+		},
+
+		importObjectives(objectives: Objective[]) {
+			objectives.forEach(item => {
+				this.addObjective({ ...item, id: uuidv4() })
+			})
+		},
+
 		updateValue(variableName: string, payload: any) {
-			if (variableName === PersonalValue.MEASUREMENT) this.updateMeasurement(payload)
+			if (variableName === PersonalValue.MEASUREMENT)
+				this.updateMeasurement(payload)
 			else this.updatePR(payload)
 		},
 

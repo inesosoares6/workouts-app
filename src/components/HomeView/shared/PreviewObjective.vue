@@ -1,13 +1,13 @@
 <template>
 	<v-list-item
-		:value="workout"
+		:value="objective"
 		rounded="xl"
-		:title="workout.name"
-		:subtitle="`${workout.type} - ${workout.time} min`"
+		:title="objective.text"
+		:subtitle="`${objective.dateDone ?? objective.date}`"
 	>
 		<template v-slot:prepend>
-			<v-avatar :color="workout.completions ? 'secondary' : 'error'">
-				<v-icon>mdi-dumbbell</v-icon>
+			<v-avatar color="secondary">
+				<v-icon>calendar-check</v-icon>
 			</v-avatar>
 		</template>
 		<template v-slot:append>
@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { Workout } from '@/types/WorkoutsTypes'
+import { Objective } from '@/types/PersonalTypes'
 
 defineProps<{
-	workout: Workout
+	objective: Objective
 	index: Array<number | string>
 }>()
 
