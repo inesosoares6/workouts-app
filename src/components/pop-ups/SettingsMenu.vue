@@ -41,6 +41,16 @@
 			<v-card-text class="py-0">
 				<v-list lines="two">
 					<v-list-item
+						title="Save all cache to file"
+						subtitle="This will save all the stored data"
+						class="pa-0"
+						@click="saveAllCache"
+					>
+						<template v-slot:append>
+							<v-icon>mdi-chevron-right</v-icon>
+						</template>
+					</v-list-item>
+					<v-list-item
 						title="Delete all cache"
 						subtitle="This will delete all the stored data"
 						class="pa-0"
@@ -82,6 +92,10 @@ const deleteAllCache = () => {
 	storeApp.deleteAllCache()
 }
 
+const saveAllCache = () => {
+	storeApp.saveAllCache()
+}
+
 onMounted(() => {
 	isDarkMode.value = theme.value.global.name === ThemeValue.DARK
 })
@@ -90,4 +104,3 @@ onUpdated(() => {
 	groupByTypeEnabled.value = storeApp.groupByType
 })
 </script>
-

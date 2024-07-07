@@ -3,44 +3,8 @@ import { useStoreTimer } from '@/stores/timer'
 import { useStoreUser } from '@/stores/user'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
-
-const initialTimelineState = [
-	{
-		day: 'Monday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Tuesday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Wednesday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Thursday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Friday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Saturday',
-		color: 'error',
-		workoutsId: []
-	},
-	{
-		day: 'Sunday',
-		color: 'error',
-		workoutsId: []
-	}
-]
+import { initialTimelineState } from '@/mocks/AppTemplates'
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 
 interface State {
 	timeline: DayData[]
@@ -56,7 +20,7 @@ export const useStoreApp = defineStore('app', {
 			groupByType: false
 		}
 	},
-	getters: {},
+	getters: { getAllData: state => ({ ...state }) },
 	actions: {
 		init() {
 			if (localStorage.getItem('timeline'))
@@ -124,6 +88,31 @@ export const useStoreApp = defineStore('app', {
 			storeTimer.deleteAllCache()
 			storeUser.deleteAllCache()
 			storeWorkouts.deleteAllCache()
+		},
+
+		async saveAllCache() {
+			const storeUser = useStoreUser()
+			const storeWorkouts = useStoreWorkouts()
+
+			const date = new Date().toISOString().slice(0, 10)
+			const data = {
+				personalRecords: storeUser.personalRecords,
+				measurements: storeUser.measurements,
+				objectives: storeUser.objectives,
+				workouts: storeWorkouts.allWorkouts
+			}
+      
+			try {
+				const fileName = `WorkoutsApp-${date}.json`
+				await Filesystem.writeFile({
+					path: fileName,
+					data: JSON.stringify(data, null, 4),
+					directory: Directory.Documents,
+					encoding: Encoding.UTF8
+				})
+			} catch (e) {
+				alert('Unable to write file')
+			}
 		}
 	}
 })
