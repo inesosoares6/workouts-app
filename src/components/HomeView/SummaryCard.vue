@@ -32,7 +32,7 @@
 					v-for="(item, index) in getWorkoutSummary.types"
 					:key="index"
 				>
-					<div class="d-flex flex-column my-4 ga-2 align-center">
+					<div class="d-flex flex-column ga-2 align-center">
 						<v-avatar color="secondary">{{ item.value }}</v-avatar>
 						{{ item.type }}
 					</div>
@@ -63,7 +63,7 @@ const summaryInfo = computed(() => [
 ])
 </script>
 
-<style scoped lang="css">
+<style lang="css">
 .v-slide-group__content {
 	justify-content: center;
 }
