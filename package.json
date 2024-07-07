@@ -13,8 +13,6 @@
 		"@capacitor/filesystem": "^6.0.0",
 		"@mdi/font": "6.2.95",
 		"core-js": "^3.34.0",
-		"html2pdf": "^0.0.11",
-		"html2pdf-ts": "^1.2.1",
 		"localStorage": "^1.0.4",
 		"roboto-fontface": "*",
 		"uuid": "^10.0.0",
