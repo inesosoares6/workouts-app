@@ -5,11 +5,11 @@
 	>
 		<v-card class="mb">
 			<ImportExportHeader title="Import" />
-			<v-card-subtitle>Select the workouts file</v-card-subtitle>
+			<v-card-subtitle>{{`Select the ${dataType} file`}}</v-card-subtitle>
 			<v-card-text>
 				<v-file-input
 					type="file"
-					label="Import workouts"
+					:label="`Import ${dataType}`"
 					accept=".json"
 					@change="importFile"
 					hide-details
@@ -20,12 +20,16 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['preview-imported-workouts'])
+defineProps<{
+  dataType: string
+}>()
+
+const emit = defineEmits(['preview-imported-data'])
 
 const fileReader = ref(false)
 
 const openPreviewList = (list: string | ArrayBuffer | null) => {
-	emit('preview-imported-workouts', list)
+	emit('preview-imported-data', list)
 	fileReader.value = false
 }
 

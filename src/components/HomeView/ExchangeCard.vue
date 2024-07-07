@@ -14,8 +14,8 @@
 					>
 						Send
 						<PreviewList
-							v-if="allWorkouts.length > 0"
-							:workouts="allWorkouts"
+							v-if="allWorkouts.length"
+							:data="{ workouts: allWorkouts }"
 							action="export"
 							@downloaded-workouts="downloadedWorkouts"
 						/>
@@ -27,7 +27,10 @@
 						prepend-icon="mdi-arrow-bottom-left"
 					>
 						Receive
-						<FileReader @preview-imported-workouts="previewImportedWorkouts" />
+						<FileReader
+							dataType="workouts"
+							@preview-imported-data="previewImportedWorkouts"
+						/>
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -37,7 +40,7 @@
 	<PreviewList
 		v-model="imported"
 		v-if="imported && importedWorkouts.length"
-		:workouts="importedWorkouts"
+		:data="{ workouts: importedWorkouts }"
 		:action="FileAction.IMPORT"
 	/>
 </template>

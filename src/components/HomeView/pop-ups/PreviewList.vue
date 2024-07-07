@@ -14,30 +14,29 @@
 			</template>
 			<v-card-text class="py-0">
 				<v-list
-					v-if="workouts.length"
+					v-for="(list, key) in data"
+					:key="key"
 					lines="two"
 				>
-					<v-list-item
-						v-for="(workout, key) in workouts"
-						:key="key"
-						:value="workout"
-						rounded="xl"
-						:title="workout.name"
-						:subtitle="`${workout.type} - ${workout.time} min`"
-					>
-						<template v-slot:prepend>
-							<v-avatar :color="workout.completions ? 'secondary' : 'error'">
-								<v-icon>mdi-dumbbell</v-icon>
-							</v-avatar>
-						</template>
-						<template v-slot:append>
-							<v-checkbox
-								v-model="selected[key]"
-								hide-details
-								@change="updateMainCheckbox()"
-							/>
-						</template>
-					</v-list-item>
+					<v-list-subheader>{{ key.toLocaleUpperCase() }}</v-list-subheader>
+					<div v-if="key === 'workouts'">
+						<PreviewWorkoutItem
+							v-for="(workout, index) in list"
+							:key="index"
+							:workout="(workout as Workout)"
+							:index="[key, index]"
+							@update-main-checkbox="updateMainCheckbox"
+						/>
+					</div>
+					<div v-else>
+						<PreviewPersonalValue
+							v-for="(listItem, index) in list"
+							:key="index"
+							:personal-value="(listItem as Measurement | PersonalRecord)"
+							:index="[key, index]"
+							@update-main-checkbox="updateMainCheckbox"
+						/>
+					</div>
 				</v-list>
 			</v-card-text>
 			<v-card-actions>
@@ -71,13 +70,18 @@ import { useRouter } from 'vue-router'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { Workout } from '@/types/WorkoutsTypes'
 import { FileAction } from '@/enums/HomeEnums'
+import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
 const storeWorkouts = useStoreWorkouts()
 const router = useRouter()
 
 const emit = defineEmits(['downloaded-workouts'])
 const props = defineProps<{
-	workouts: Workout[]
+	data: {
+		workouts: Workout[]
+		personalRecords?: PersonalRecord[]
+		measurements?: Measurement[]
+	}
 	action: string
 }>()
 
@@ -98,11 +102,12 @@ const importWorkouts = () => {
 const updateCheckboxes = (value: boolean) => {
 	selected.value = []
 	if (!value) return
-	selected.value = [...props.workouts]
+	selected.value = [...Object.values(props.data)]
 }
 
-const updateMainCheckbox = () => {
-	selectedAll.value = selected.value.length === props.workouts.length
+const updateMainCheckbox = (value: boolean, index: Array<number | string>) => {
+	selected.value[index[0]][index[1]] = value
+	selectedAll.value = selected.value.length === Object.values(props.data).length
 }
 
 onMounted(() => {
