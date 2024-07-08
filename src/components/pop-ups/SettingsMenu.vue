@@ -67,11 +67,11 @@
 						title="Delete all cache"
 						subtitle="This will delete all the stored data"
 						class="pa-0 text-red-darken-3"
-						@click="deleteAllCache"
 					>
 						<template v-slot:append>
 							<v-icon>mdi-chevron-right</v-icon>
 						</template>
+						<ConfirmationPopup @confirm="deleteAllCache" />
 					</v-list-item>
 				</v-list>
 			</v-card-text>

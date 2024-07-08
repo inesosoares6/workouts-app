@@ -15,6 +15,7 @@ declare module 'vue' {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     BottomToolbar: typeof import('./components/BottomToolbar.vue')['default']
     CardGraphs: typeof import('./components/PersonalView/pop-ups/CardGraphs.vue')['default']
+    ConfirmationPopup: typeof import('./components/shared/ConfirmationPopup.vue')['default']
     ControlButtons: typeof import('./components/WorkoutView/Timer/ControlButtons.vue')['default']
     copy: typeof import('./components/HomeView/shared/PreviewPersonalValue copy.vue')['default']
     DailyReport: typeof import('./components/HomeView/pop-ups/DailyReport.vue')['default']
