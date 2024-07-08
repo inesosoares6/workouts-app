@@ -39,9 +39,10 @@
 
 	<PreviewList
 		v-model="imported"
-		v-if="imported && importedWorkouts.length"
-		:data="{ workouts: importedWorkouts }"
+		v-if="imported && Object.keys(importedWorkouts).length"
+		:data="importedWorkouts"
 		:action="FileAction.IMPORT"
+		@completed="imported = false"
 	/>
 </template>
 

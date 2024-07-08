@@ -82,6 +82,7 @@
 		v-model="imported"
 		:data="importedData"
 		:action="FileAction.IMPORT"
+		@completed="imported = false"
 	/>
 </template>
 

@@ -87,7 +87,7 @@ import { Measurement, Objective, PersonalRecord } from '@/types/PersonalTypes'
 const storeWorkouts = useStoreWorkouts()
 const storeUser = useStoreUser()
 
-const emit = defineEmits(['downloaded-workouts'])
+const emit = defineEmits(['downloaded-workouts', 'completed'])
 const props = defineProps<{
 	data: {
 		workouts: Workout[]
@@ -175,6 +175,7 @@ const importData = () => {
 	if (objectivesSelected.value) {
 		storeUser.importObjectives(objectivesSelected.value)
 	}
+	emit('completed')
 }
 
 const updateCheckboxes = (value: boolean) => {
