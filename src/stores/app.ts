@@ -5,6 +5,7 @@ import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
 import { initialTimelineState } from '@/mocks/AppTemplates'
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
+import { getWeekNumber } from '@/helpers/utils'
 
 interface State {
 	timeline: DayData[]
@@ -57,18 +58,10 @@ export const useStoreApp = defineStore('app', {
 		},
 
 		updateWeek() {
-			const currentDate = new Date()
-			const startDate = new Date(currentDate.getFullYear(), 0, 1)
-			const days = Math.floor(
-				(currentDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
-			)
-			const nextWeekNumber = Math.ceil(days / 7)
-			if (
-				this.weekNumber != nextWeekNumber &&
-				currentDate.toString().split(' ')[0] !== 'Sun'
-			) {
+			const weekNumberCalculated = getWeekNumber(new Date())
+			if (this.weekNumber != weekNumberCalculated) {
 				this.timeline = this.clearTimeline()
-				this.weekNumber = nextWeekNumber
+				this.weekNumber = weekNumberCalculated
 				localStorage.setItem('timeline', JSON.stringify(this.timeline))
 				localStorage.setItem('weekNumber', JSON.stringify(this.weekNumber))
 			}
@@ -101,7 +94,7 @@ export const useStoreApp = defineStore('app', {
 				objectives: storeUser.objectives,
 				workouts: storeWorkouts.allWorkouts
 			}
-      
+
 			try {
 				const fileName = `WorkoutsApp-${date}.json`
 				await Filesystem.writeFile({
