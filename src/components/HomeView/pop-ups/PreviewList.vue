@@ -61,7 +61,7 @@
 					Generate
 					<FileGenerator
 						:workoutList="workoutsSelected"
-						@close-menu="downloadedWorkouts"
+						@close-menu="previewList = false"
 					/>
 				</v-btn>
 				<v-btn
@@ -155,11 +155,6 @@ const objectivesSelected: ComputedRef<Objective[]> = computed(() => {
 			)
 		)
 })
-
-const downloadedWorkouts = (fileName: string) => {
-	emit('downloaded-workouts', fileName)
-	previewList.value = false
-}
 
 const importData = () => {
 	previewList.value = false

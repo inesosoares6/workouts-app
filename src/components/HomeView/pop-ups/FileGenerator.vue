@@ -18,9 +18,9 @@
 				<v-spacer />
 				<v-btn
 					color="secondary"
-					@click="downloadFile"
+					@click="handleShare"
 				>
-					Download
+					Share
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import { shareFile } from '@/helpers/utils'
 import { Workout } from '@/types/WorkoutsTypes'
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 
 const emit = defineEmits(['close-menu'])
 const props = defineProps<{
@@ -39,24 +39,9 @@ const props = defineProps<{
 const fileGenerator = ref(false)
 const name = ref('')
 
-const closeMenu = (fileName: string) => {
+const handleShare = async () => {
+	await shareFile(name.value, { workouts: props.workoutList })
 	fileGenerator.value = false
-	emit('close-menu', fileName)
-}
-
-const downloadFile = async () => {
-	try {
-		const fileName =
-			(name.value.length === 0 ? 'Workout' : name.value) + '.json'
-		await Filesystem.writeFile({
-			path: fileName,
-			data: JSON.stringify(props.workoutList, null, 4),
-			directory: Directory.Documents,
-			encoding: Encoding.UTF8
-		})
-		closeMenu(fileName)
-	} catch (e) {
-		alert('Unable to write file')
-	}
+	emit('close-menu')
 }
 </script>

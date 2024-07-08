@@ -17,7 +17,6 @@
 							v-if="allWorkouts.length"
 							:data="{ workouts: allWorkouts }"
 							action="export"
-							@downloaded-workouts="downloadedWorkouts"
 						/>
 					</v-btn>
 				</v-col>
@@ -55,14 +54,6 @@ const importedWorkouts = ref()
 const imported = ref(false)
 
 const allWorkouts = computed(() => storeWorkouts.allWorkouts)
-
-const emit = defineEmits(['show-snackbar'])
-
-const downloadedWorkouts = (fileName: string) => {
-	if (fileName !== '') {
-		emit('show-snackbar', `${fileName} exported to Documents folder.`)
-	}
-}
 
 const previewImportedWorkouts = (workouts: string) => {
 	importedWorkouts.value = JSON.parse(workouts)

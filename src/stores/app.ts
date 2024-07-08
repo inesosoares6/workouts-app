@@ -4,8 +4,7 @@ import { useStoreUser } from '@/stores/user'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
 import { initialTimelineState } from '@/mocks/AppTemplates'
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
-import { getWeekNumber } from '@/helpers/utils'
+import { getWeekNumber, shareFile } from '@/helpers/utils'
 
 interface State {
 	timeline: DayData[]
@@ -95,17 +94,7 @@ export const useStoreApp = defineStore('app', {
 				workouts: storeWorkouts.allWorkouts
 			}
 
-			try {
-				const fileName = `WorkoutsApp-${date}.json`
-				await Filesystem.writeFile({
-					path: fileName,
-					data: JSON.stringify(data, null, 4),
-					directory: Directory.Documents,
-					encoding: Encoding.UTF8
-				})
-			} catch (e) {
-				alert('Unable to write file')
-			}
+			shareFile(`WorkoutsApp-${date}`, data)
 		}
 	}
 })

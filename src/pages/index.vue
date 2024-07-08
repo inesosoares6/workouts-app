@@ -6,7 +6,7 @@
 
 		<WeekOverviewCard />
 
-		<ExchangeCard @show-snackbar="showSnackbar" />
+		<ExchangeCard />
 
 		<NotificationToast
 			v-if="snackbar"
