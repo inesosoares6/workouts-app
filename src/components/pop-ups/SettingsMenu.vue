@@ -78,7 +78,7 @@
 		</v-card>
 	</v-dialog>
 	<PreviewList
-		v-if="imported && importedData.length"
+		v-if="imported && Object.keys(importedData).length"
 		v-model="imported"
 		:data="importedData"
 		:action="FileAction.IMPORT"

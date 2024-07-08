@@ -26,6 +26,7 @@
 							:workout="(workout as Workout)"
 							:index="[key, workout.id]"
 							@update-main-checkbox="updateMainCheckbox"
+							v-model="selected[key][workout.id]"
 						/>
 					</div>
 					<div v-else-if="key === 'objectives'">
@@ -35,6 +36,7 @@
 							:objective="(listItem as Objective)"
 							:index="[key, listItem.id]"
 							@update-main-checkbox="updateMainCheckbox"
+							v-model="selected[key][listItem.id]"
 						/>
 					</div>
 					<div v-else>
@@ -44,6 +46,7 @@
 							:personal-value="(listItem as Measurement | PersonalRecord)"
 							:index="[key, listItem.id]"
 							@update-main-checkbox="updateMainCheckbox"
+							v-model="selected[key][listItem.id]"
 						/>
 					</div>
 				</v-list>
@@ -159,6 +162,7 @@ const downloadedWorkouts = (fileName: string) => {
 }
 
 const importData = () => {
+	previewList.value = false
 	if (workoutsSelected.value) {
 		storeWorkouts.importWorkouts(workoutsSelected.value)
 	}

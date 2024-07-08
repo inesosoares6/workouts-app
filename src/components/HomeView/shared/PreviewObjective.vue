@@ -7,7 +7,7 @@
 	>
 		<template v-slot:prepend>
 			<v-avatar color="secondary">
-				<v-icon>calendar-check</v-icon>
+				<v-icon>mdi-calendar-check</v-icon>
 			</v-avatar>
 		</template>
 		<template v-slot:append>
@@ -23,10 +23,20 @@
 <script setup lang="ts">
 import { Objective } from '@/types/PersonalTypes'
 
-defineProps<{
+const props = defineProps<{
+	modelValue: boolean
 	objective: Objective
 	index: Array<number | string>
 }>()
 
-const selected = ref(false)
+const emit = defineEmits(['updateMainCheckbox'])
+
+const selected = computed({
+	get() {
+		return props.modelValue
+	},
+	set(newValue) {
+		emit('updateMainCheckbox', { value: newValue, index: props.index })
+	}
+})
 </script>

@@ -14,7 +14,6 @@
 			<v-checkbox
 				v-model="selected"
 				hide-details
-				@change="$emit('updateMainCheckbox', { value: selected, index })"
 			/>
 		</template>
 	</v-list-item>
@@ -23,10 +22,20 @@
 <script setup lang="ts">
 import { Workout } from '@/types/WorkoutsTypes'
 
-defineProps<{
+const props = defineProps<{
+	modelValue: boolean
 	workout: Workout
 	index: Array<number | string>
 }>()
 
-const selected = ref(false)
+const emit = defineEmits(['updateMainCheckbox'])
+
+const selected = computed({
+	get() {
+		return props.modelValue
+	},
+	set(newValue) {
+		emit('updateMainCheckbox', { value: newValue, index: props.index })
+	}
+})
 </script>

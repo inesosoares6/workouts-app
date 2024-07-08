@@ -10,7 +10,7 @@
 				<v-icon>
 					{{
 						(personalValue as PersonalRecord).reps
-							? 'mdi.weight-lifter'
+							? 'mdi-weight-lifter'
 							: 'mdi-scale-balance'
 					}}
 				</v-icon>
@@ -20,7 +20,7 @@
 			<v-checkbox
 				v-model="selected"
 				hide-details
-				@change="$emit('updateMainCheckbox', {value: selected, index})"
+				@change="$emit('updateMainCheckbox', { value: selected, index })"
 			/>
 		</template>
 	</v-list-item>
@@ -29,10 +29,20 @@
 <script setup lang="ts">
 import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
-defineProps<{
+const props = defineProps<{
+	modelValue: boolean
 	personalValue: Measurement | PersonalRecord
 	index: Array<number | string>
 }>()
 
-const selected = ref(false)
+const emit = defineEmits(['updateMainCheckbox'])
+
+const selected = computed({
+	get() {
+		return props.modelValue
+	},
+	set(newValue) {
+		emit('updateMainCheckbox', { value: newValue, index: props.index })
+	}
+})
 </script>
