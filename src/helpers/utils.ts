@@ -32,15 +32,32 @@ export const getWeekNumber = (date: Date): number => {
 	return 1 + Math.ceil((firstThursday - tempDate.valueOf()) / 604800000) // 604800000 = number of milliseconds in a week
 }
 
+const formatDate = (date: Date) => {
+	return date.toLocaleString('pt-PT', {
+		year: '2-digit',
+		month: '2-digit',
+		day: '2-digit'
+	})
+}
+
 export const shareFile = async (name: string, data: any) => {
 	const fileName = `${name.length ? name : 'Workout'}.json`
 	FileSharer.share({
 		filename: fileName,
 		contentType: 'application/json',
 		base64Data: btoa(JSON.stringify(data, null, 4))
+	}).catch(error => {
+		alert(`Error: ${error.message}`)
 	})
-		.then(() => {})
-		.catch(error => {
-			alert(`Error: ${error.message}`)
-		})
+}
+
+export const shareImage = async (name: string, data: any) => {
+	const fileName = `${name}-${formatDate(new Date())}.png`
+	FileSharer.share({
+		filename: fileName,
+		contentType: 'image/png',
+		base64Data: data.replace('data:image/png;base64,', '').toString()
+	}).catch(error => {
+		alert(`Error: ${error.message}`)
+	})
 }
