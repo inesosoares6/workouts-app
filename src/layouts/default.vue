@@ -1,10 +1,8 @@
 <template>
 	<v-app>
-		<TopToolbar @toggle-theme="toggleTheme" />
 		<v-main>
 			<router-view />
 		</v-main>
-		<BottomToolbar />
 	</v-app>
 </template>
 
@@ -32,9 +30,4 @@ onMounted(() => {
 		theme.value.global.name = localStorage.getItem('themeString')
 	}
 })
-const toggleTheme = (newTheme: string) => {
-	// @ts-ignore
-	theme.value.global.name = newTheme.toString()
-	localStorage.setItem('themeString', newTheme)
-}
 </script>
