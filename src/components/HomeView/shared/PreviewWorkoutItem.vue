@@ -23,7 +23,7 @@
 import { Workout } from '@/types/WorkoutsTypes'
 
 const props = defineProps<{
-	modelValue: boolean
+	modelValue?: boolean
 	workout: Workout
 	index: Array<number | string>
 }>()

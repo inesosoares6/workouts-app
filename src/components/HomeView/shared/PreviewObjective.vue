@@ -24,7 +24,7 @@
 import { Objective } from '@/types/PersonalTypes'
 
 const props = defineProps<{
-	modelValue: boolean
+	modelValue?: boolean
 	objective: Objective
 	index: Array<number | string>
 }>()

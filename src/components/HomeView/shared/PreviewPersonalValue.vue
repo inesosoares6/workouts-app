@@ -30,7 +30,7 @@
 import { Measurement, PersonalRecord } from '@/types/PersonalTypes'
 
 const props = defineProps<{
-	modelValue: boolean
+	modelValue?: boolean
 	personalValue: Measurement | PersonalRecord
 	index: Array<number | string>
 }>()
