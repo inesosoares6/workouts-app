@@ -5,7 +5,7 @@
 				class="title-icon"
 				color="secondary"
 			>
-				mdi-clipboard-text
+				mdi-weight-lifter
 			</v-icon>
 		</template>
 		<template v-slot:title>Personal Records</template>

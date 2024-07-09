@@ -11,7 +11,7 @@
 					{{
 						(personalValue as PersonalRecord).reps
 							? 'mdi-weight-lifter'
-							: 'mdi-scale-balance'
+							: 'mdi-scale-bathroom'
 					}}
 				</v-icon>
 			</v-avatar>
