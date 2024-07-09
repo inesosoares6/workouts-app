@@ -11,7 +11,17 @@
 			<template v-slot:title>
 				{{ selectedDay.day + ' Workouts' }}
 			</template>
-			<v-list>
+			<template v-slot:append>
+				<v-btn
+					icon
+					flat
+					size="small"
+					@click="shareReport"
+				>
+					<v-icon color="secondary">mdi-share-variant</v-icon>
+				</v-btn>
+			</template>
+			<v-list id="element-to-convert">
 				<div
 					v-for="(workout, index) in getWorkoutsDone"
 					:key="index"
@@ -43,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { html2Image, shareImage } from '@/helpers/utils'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
 
@@ -58,4 +69,9 @@ const getWorkoutsDone = computed(() =>
 		props.selectedDay.workoutsId.includes(wod.id)
 	)
 )
+
+const shareReport = async () => {
+	const dataUrl = await html2Image('element-to-convert')
+	shareImage('Daily-Report', dataUrl)
+}
 </script>
