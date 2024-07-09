@@ -16,6 +16,7 @@
 import { useStoreWorkouts } from '@/stores/workouts'
 import { Workout } from '@/types/WorkoutsTypes'
 
+const emit = defineEmits(['done'])
 const props = defineProps<{
 	workout: Workout
 }>()
@@ -29,5 +30,6 @@ const updateWorkout = (workout: Workout) => {
 		id: props.workout.id,
 		updates: workout
 	})
+  emit('done')
 }
 </script>

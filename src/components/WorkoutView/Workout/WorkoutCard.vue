@@ -21,20 +21,41 @@
 				v-model="checkbox"
 				label="Done"
 				hide-details
-				@change="updateWorkout"
+				@change="updateWorkoutCompletions"
 			/>
 		</template>
 		<v-divider />
 		<v-col>
-			<v-btn
-				style="position: absolute; top: 100px; left: 5px"
-				icon
-				flat
-				size="small"
-			>
-				<v-icon>mdi-dots-vertical</v-icon>
-				<WorkoutDetails :workout="currentWorkout" />
-			</v-btn>
+			<v-menu v-model="menu">
+				<template v-slot:activator="{ props }">
+					<v-btn
+						style="position: absolute; top: 100px; left: 5px"
+						icon
+						flat
+						size="small"
+						v-bind="props"
+					>
+						<v-icon>mdi-dots-vertical</v-icon>
+					</v-btn>
+				</template>
+
+				<v-list>
+					<v-list-item>
+						<v-list-item-title>Show Details</v-list-item-title>
+						<WorkoutDetails
+							:workout="currentWorkout"
+							@done="menu = false"
+						/>
+					</v-list-item>
+					<v-list-item>
+						<v-list-item-title>Edit Workout</v-list-item-title>
+						<EditWorkout
+							:workout="currentWorkout"
+							@done="menu = false"
+						/>
+					</v-list-item>
+				</v-list>
+			</v-menu>
 		</v-col>
 		<v-card-text
 			class="text-center"
@@ -73,6 +94,7 @@ const storeApp = useStoreApp()
 const checkbox = ref(false)
 const snackbar = ref(false)
 const text = ref('')
+const menu = ref(false)
 
 const currentWorkout = computed(() => storeWorkouts.getCurrentWorkout)
 
@@ -97,7 +119,7 @@ const copyWorkout = () => {
 	text.value = 'Copied workout to clipboard'
 }
 
-const updateWorkout = () => {
+const updateWorkoutCompletions = () => {
 	if (checkbox.value) {
 		storeWorkouts.updateWorkout({
 			id: storeWorkouts.currentWorkoutId,

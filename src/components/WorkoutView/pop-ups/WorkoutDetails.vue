@@ -58,6 +58,7 @@ import { Workout } from '@/types/WorkoutsTypes'
 
 const storeWorkouts = useStoreWorkouts()
 
+const emit = defineEmits(['done'])
 const props = defineProps<{
 	workout: Workout
 }>()
@@ -80,5 +81,6 @@ const saveDetails = () => {
 	})
 	addDetails.value = false
 	workoutDetails.value = false
+	emit('done')
 }
 </script>
