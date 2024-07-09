@@ -14,7 +14,11 @@
 					flat
 					@click="addDetails = !addDetails"
 				>
-					<v-icon>mdi-{{ addDetails ? 'minus' : 'plus' }}</v-icon>
+					<v-icon>
+						mdi-{{
+							addDetails ? 'minus' : workout?.details ? 'pencil' : 'plus'
+						}}
+					</v-icon>
 				</v-btn>
 			</template>
 			<v-card-text
@@ -68,10 +72,6 @@ const addDetails = ref(false)
 const details = ref('')
 const currentWorkout = ref()
 
-onMounted(() => {
-	currentWorkout.value = props.workout
-})
-
 const saveDetails = () => {
 	storeWorkouts.updateWorkout({
 		id: props.workout.id,
@@ -83,4 +83,9 @@ const saveDetails = () => {
 	workoutDetails.value = false
 	emit('done')
 }
+
+onMounted(() => {
+	currentWorkout.value = props.workout
+	details.value = props.workout?.details
+})
 </script>
