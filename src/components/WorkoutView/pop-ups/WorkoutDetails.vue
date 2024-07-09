@@ -15,9 +15,7 @@
 					@click="addDetails = !addDetails"
 				>
 					<v-icon>
-						mdi-{{
-							addDetails ? 'minus' : workout?.details ? 'pencil' : 'plus'
-						}}
+						{{ appendedIcon }}
 					</v-icon>
 				</v-btn>
 			</template>
@@ -71,6 +69,13 @@ const workoutDetails = ref(false)
 const addDetails = ref(false)
 const details = ref('')
 const currentWorkout = ref()
+
+const appendedIcon = computed(
+	() =>
+		`mdi-${
+			addDetails.value ? 'minus' : props.workout?.details ? 'pencil' : 'plus'
+		}`
+)
 
 const saveDetails = () => {
 	storeWorkouts.updateWorkout({
