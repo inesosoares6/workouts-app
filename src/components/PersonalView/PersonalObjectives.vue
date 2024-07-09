@@ -46,15 +46,31 @@
 								@click="storeUser.updateObjective(objective.id)"
 							>
 								<template v-slot:label>
-									<div
-										:class="
-											(objective.done &&
-												'text-decoration-line-through text-secondary') ||
-											'text-primary'
-										"
-										class="ms-4"
-										v-text="objective.text"
-									/>
+									<div class="d-flex flex-column ms-4">
+										<span
+											:class="
+												(objective.done &&
+													'text-decoration-line-through text-secondary') ||
+												'text-primary'
+											"
+										>
+											{{ objective.text }}
+										</span>
+										<span
+											class="text-grey"
+											style="font-size: 12px"
+										>
+											{{
+												formatDate(
+													new Date(
+														objective.dateDone
+															? objective.dateDone
+															: objective.date
+													)
+												)
+											}}
+										</span>
+									</div>
 								</template>
 							</v-checkbox>
 						</v-list-item-action>
@@ -91,6 +107,7 @@
 <script setup lang="ts">
 import { useStoreUser } from '@/stores/user'
 import ConfettiExplosion from 'vue-confetti-explosion'
+import { formatDate } from '@/helpers/utils'
 
 const visible = ref(false)
 
