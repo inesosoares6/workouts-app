@@ -89,6 +89,6 @@ const getWorkoutsDone = (selectedDay: { workoutsId: string[] }) => {
 
 const shareReport = async () => {
 	const dataUrl = await html2Image('element-to-convert')
-	shareImage('Weekly Report', dataUrl)
+	shareImage('Weekly-Report', dataUrl)
 }
 </script>

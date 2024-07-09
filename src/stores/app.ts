@@ -4,7 +4,7 @@ import { useStoreUser } from '@/stores/user'
 import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
 import { initialTimelineState } from '@/mocks/AppTemplates'
-import { getWeekNumber, shareFile } from '@/helpers/utils'
+import { formatDate, getWeekNumber, shareFile } from '@/helpers/utils'
 
 interface State {
 	timeline: DayData[]
@@ -86,7 +86,6 @@ export const useStoreApp = defineStore('app', {
 			const storeUser = useStoreUser()
 			const storeWorkouts = useStoreWorkouts()
 
-			const date = new Date().toISOString().slice(0, 10)
 			const data = {
 				personalRecords: storeUser.personalRecords,
 				measurements: storeUser.measurements,
@@ -94,7 +93,7 @@ export const useStoreApp = defineStore('app', {
 				workouts: storeWorkouts.allWorkouts
 			}
 
-			shareFile(`WorkoutsApp-${date}`, data)
+			shareFile(`WorkoutsApp-${formatDate(new Date())}`, data)
 		}
 	}
 })

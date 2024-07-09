@@ -40,7 +40,9 @@ const fileGenerator = ref(false)
 const name = ref('')
 
 const handleShare = async () => {
-	await shareFile(name.value, { workouts: props.workoutList })
+	await shareFile(name.value.length ? name.value : 'Workouts', {
+		workouts: props.workoutList
+	})
 	fileGenerator.value = false
 	emit('close-menu')
 }
