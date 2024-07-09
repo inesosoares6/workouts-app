@@ -10,7 +10,7 @@
 				flat
 				size="small"
 			>
-				<v-icon color="secondary">mdi-format-list-bulleted</v-icon>
+				<v-icon color="secondary">mdi-timeline-text-outline</v-icon>
 				<WeeklyReport />
 			</v-btn>
 		</template>
@@ -40,12 +40,12 @@
 				</v-timeline-item>
 			</v-timeline>
 		</v-card-text>
-	</v-card>
-
 	<DailyReport
 		v-if="showWorkoutDone"
 		:selectedDay="selectedDay"
 	/>
+	</v-card>
+
 </template>
 
 <script setup lang="ts">

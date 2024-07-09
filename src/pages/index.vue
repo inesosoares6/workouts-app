@@ -2,11 +2,14 @@
 	<v-container class="d-flex flex-column ga-4">
 		<SummaryCard />
 
-		<GenerateRandomCard @show-snackbar="showSnackbar" />
+		<GenerateRandomCard
+			class="py-3"
+			@show-snackbar="showSnackbar"
+		/>
 
-		<WeekOverviewCard />
+		<WeekOverviewCard class="py-3" />
 
-		<ExchangeCard />
+		<ExchangeCard class="py-3" />
 
 		<NotificationToast
 			v-if="snackbar"

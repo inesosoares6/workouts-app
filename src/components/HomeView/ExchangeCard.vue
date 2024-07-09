@@ -34,15 +34,14 @@
 				</v-col>
 			</v-row>
 		</v-card-text>
+		<PreviewList
+			v-model="imported"
+			v-if="imported && Object.keys(importedWorkouts).length"
+			:data="importedWorkouts"
+			:action="FileAction.IMPORT"
+			@completed="imported = false"
+		/>
 	</v-card>
-
-	<PreviewList
-		v-model="imported"
-		v-if="imported && Object.keys(importedWorkouts).length"
-		:data="importedWorkouts"
-		:action="FileAction.IMPORT"
-		@completed="imported = false"
-	/>
 </template>
 
 <script setup lang="ts">

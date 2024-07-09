@@ -11,6 +11,7 @@
 				size="small"
 			>
 				<v-icon color="secondary">mdi-tune</v-icon>
+				<FiltersDialog v-model="filters" />
 			</v-btn>
 		</template>
 
@@ -35,6 +36,17 @@
 					</v-btn>
 				</v-col>
 			</v-row>
+			<v-row>
+				<v-chip
+					v-for="(chip, key) in filters"
+					:key="key"
+					class="ma-2"
+					closable
+					@click:close="removeFilter(chip)"
+				>
+					{{ chip }}
+				</v-chip>
+			</v-row>
 		</v-card-text>
 	</v-card>
 </template>
@@ -46,19 +58,30 @@ import { useRouter } from 'vue-router'
 
 const storeWorkouts = useStoreWorkouts()
 const router = useRouter()
+
 const time = ref()
+const filters: Ref<string[]> = ref([])
 
 const emit = defineEmits(['show-snackbar'])
 
 const getWODs = computed(() => storeWorkouts.getWODs)
 
-const generateValidWorkoutsList = (): Workout[] => {
+const generateValidTimeList = (): Workout[] => {
 	if (!time.value) return getWODs.value
 	return getWODs.value.filter(workout => workout.time <= time.value)
 }
 
+const generateValidTypeList = (list: Workout[]): Workout[] => {
+	return list.filter(workout => filters.value.includes(workout.type))
+}
+
+const generateValidList = () => {
+	const timeValidList = generateValidTimeList()
+	return generateValidTypeList(timeValidList)
+}
+
 const generateWorkout = () => {
-	const validList = generateValidWorkoutsList()
+	const validList = generateValidList()
 	if (validList.length > 0) {
 		storeWorkouts.selectWorkout(
 			validList[Math.floor(Math.random() * validList.length)].id
@@ -70,6 +93,10 @@ const generateWorkout = () => {
 			`There is no workout with less than ${time.value} minutes.`
 		)
 	}
+}
+
+const removeFilter = (key: string) => {
+	filters.value = filters.value.filter(filter => filter !== key)
 }
 </script>
 
