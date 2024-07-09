@@ -19,7 +19,7 @@
 					lines="two"
 				>
 					<v-list-subheader>{{ key.toLocaleUpperCase() }}</v-list-subheader>
-					<div v-if="key === 'workouts'">
+					<div v-if="key === DataEnum.WORKOUTS">
 						<PreviewWorkoutItem
 							v-for="(workout, index) in list"
 							:key="index"
@@ -29,7 +29,7 @@
 							v-model="selected[key][workout.id]"
 						/>
 					</div>
-					<div v-else-if="key === 'objectives'">
+					<div v-else-if="key === DataEnum.OBJECTIVES">
 						<PreviewObjective
 							v-for="(listItem, index) in list"
 							:key="index"
@@ -82,6 +82,7 @@ import { useStoreWorkouts } from '@/stores/workouts'
 import { useStoreUser } from '@/stores/user'
 import { Workout } from '@/types/WorkoutsTypes'
 import { FileAction } from '@/enums/HomeEnums'
+import { DataEnum } from '@/enums/AppEnums'
 import { Measurement, Objective, PersonalRecord } from '@/types/PersonalTypes'
 
 const storeWorkouts = useStoreWorkouts()
@@ -90,7 +91,7 @@ const storeUser = useStoreUser()
 const emit = defineEmits(['downloaded-workouts', 'completed'])
 const props = defineProps<{
 	data: {
-		workouts: Workout[]
+		workouts?: Workout[]
 		personalRecords?: PersonalRecord[]
 		measurements?: Measurement[]
 		objectives?: Objective[]
@@ -117,7 +118,9 @@ const isActionButtonEnabled = computed(() =>
 const workoutsSelected: ComputedRef<Workout[]> = computed(() => {
 	return Object.keys(selected.value.workouts)
 		.filter(key => selected.value.workouts[key])
-		.map(key => props.data.workouts.find(workout => workout.id === key))
+		.map(key =>
+			(props.data.workouts as Workout[]).find(workout => workout.id === key)
+		)
 })
 
 // @ts-ignore

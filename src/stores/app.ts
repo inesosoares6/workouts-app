@@ -5,6 +5,7 @@ import { useStoreWorkouts } from '@/stores/workouts'
 import { DayData } from '@/types/GeneralTypes'
 import { initialTimelineState } from '@/mocks/AppTemplates'
 import { formatDate, getWeekNumber, shareFile } from '@/helpers/utils'
+import { DataEnum } from '@/enums/AppEnums'
 
 interface State {
 	timeline: DayData[]
@@ -82,15 +83,13 @@ export const useStoreApp = defineStore('app', {
 			storeWorkouts.deleteAllCache()
 		},
 
-		async saveAllCache() {
+		async saveUserData() {
 			const storeUser = useStoreUser()
-			const storeWorkouts = useStoreWorkouts()
 
 			const data = {
-				personalRecords: storeUser.personalRecords,
-				measurements: storeUser.measurements,
-				objectives: storeUser.objectives,
-				workouts: storeWorkouts.allWorkouts
+				[DataEnum.PERSONAL_RECORDS]: storeUser.personalRecords,
+				[DataEnum.MEASUREMENTS]: storeUser.measurements,
+				[DataEnum.OBJECTIVES]: storeUser.objectives
 			}
 
 			shareFile(`WorkoutsApp-${formatDate(new Date())}`, data)

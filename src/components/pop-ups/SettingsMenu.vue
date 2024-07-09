@@ -41,10 +41,10 @@
 			<v-card-text class="py-0">
 				<v-list lines="two">
 					<v-list-item
-						title="Save all cache to file"
-						subtitle="This will save all the stored data"
+						title="Export the user's data to file"
+						subtitle="This will save the user's personal data"
 						class="pa-0"
-						@click="saveAllCache"
+						@click="saveUserData"
 					>
 						<template v-slot:append>
 							<v-icon>mdi-chevron-right</v-icon>
@@ -116,8 +116,8 @@ const deleteAllCache = () => {
 	storeApp.deleteAllCache()
 }
 
-const saveAllCache = () => {
-	storeApp.saveAllCache()
+const saveUserData = () => {
+	storeApp.saveUserData()
 }
 
 const previewImportedData = (data: string) => {
