@@ -116,6 +116,7 @@ const isActionButtonEnabled = computed(() =>
 
 // @ts-ignore
 const workoutsSelected: ComputedRef<Workout[]> = computed(() => {
+	if (!props.data?.workouts) return
 	return Object.keys(selected.value.workouts)
 		.filter(key => selected.value.workouts[key])
 		.map(key =>
