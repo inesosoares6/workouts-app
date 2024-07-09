@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { shareFile } from '@/helpers/utils'
+import { formatDate, shareFile } from '@/helpers/utils'
 import { Workout } from '@/types/WorkoutsTypes'
 
 const emit = defineEmits(['close-menu'])
@@ -40,9 +40,12 @@ const fileGenerator = ref(false)
 const name = ref('')
 
 const handleShare = async () => {
-	await shareFile(name.value.length ? name.value : 'Workouts', {
-		workouts: props.workoutList
-	})
+	await shareFile(
+		name.value.length ? name.value : `Workouts-${formatDate(new Date())}`,
+		{
+			workouts: props.workoutList
+		}
+	)
 	fileGenerator.value = false
 	emit('close-menu')
 }
