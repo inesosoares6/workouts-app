@@ -84,47 +84,44 @@ const storeUser = useStoreUser()
 const measurements = computed(() => storeUser.measurements)
 
 const calculatePercentage = (measurement: Measurement) => {
-	if (measurement.unit === Units.PERCENTAGE) return measurement.value[-1]
+	if (measurement.unit === Units.PERCENTAGE) return measurement.value.at(-1)
+	const lastValue = measurement.value.at(-1) as number
 
 	if (
 		measurement.name === Measures.WEIGHT ||
 		measurement.name === Measures.SKINFOLD
 	) {
-		if (measurement.target > measurement.value[-1]) {
+		if (measurement.target > lastValue) {
 			// Overweight
-			return (measurement.value[-1] / measurement.target) * 100
+			return (lastValue / measurement.target) * 100
 		} else {
 			// Underweight
-			return (measurement.target / measurement.value[-1]) * 100
+			return (measurement.target / lastValue) * 100
 		}
 	} else {
 		// Muscle Mass, MIG or Body Fat (in kg)
-		const totalWeight = measurements.value.find(
-			item => item.name === Measures.WEIGHT
-		)?.value
-		return Math.round(
-			(measurement.value[-1] / (totalWeight as number[])[-1]) * 100
-		)
+		const totalWeight = measurements.value
+			.find(item => item.name === Measures.WEIGHT)
+			?.value.at(-1) as number
+		return Math.round((lastValue / totalWeight) * 100)
 	}
 }
 
 const getMeasurementColor = (measurement: Measurement) => {
 	if (measurement.value.length < 2) return 'secondary'
+	const lastValue = measurement.value.at(-1) as number
+	const secondLastValue = measurement.value.at(-2) as number
 	switch (measurement.name) {
 		case Measures.WEIGHT:
-			return Math.abs(measurement.value[-1] - measurement.target) <=
-				Math.abs(measurement.value[-2] - measurement.target)
+			return Math.abs(lastValue - measurement.target) <=
+				Math.abs(secondLastValue - measurement.target)
 				? 'secondary'
 				: 'error'
 		case Measures.MIG:
 		case Measures.MUSCLE_MASS:
-			return measurement.value[-1] > measurement.value[-2]
-				? 'secondary'
-				: 'error'
+			return lastValue > secondLastValue ? 'secondary' : 'error'
 		default:
-			return measurement.value[-1] <= measurement.value[-2]
-				? 'secondary'
-				: 'error'
+			return lastValue <= secondLastValue ? 'secondary' : 'error'
 	}
 }
 
