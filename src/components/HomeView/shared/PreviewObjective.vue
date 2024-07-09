@@ -3,7 +3,7 @@
 		:value="objective"
 		rounded="xl"
 		:title="objective.text"
-		:subtitle="`${objective.dateDone ?? objective.date}`"
+		:subtitle="`${formatDate(new Date(objective.dateDone ?? objective.date))}`"
 	>
 		<template v-slot:prepend>
 			<v-avatar color="secondary">
@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { Objective } from '@/types/PersonalTypes'
+import { formatDate } from '@/helpers/utils'
 
 const props = defineProps<{
 	modelValue?: boolean
