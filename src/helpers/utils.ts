@@ -1,5 +1,6 @@
 import { WODs } from '@/enums/WorkoutEnums'
 import { FileSharer } from '@byteowls/capacitor-filesharer'
+import html2canvas from 'html2canvas'
 
 export const isWOD = (workoutType: WODs) => {
 	return Object.values(WODs).includes(workoutType)
@@ -59,5 +60,36 @@ export const shareImage = async (name: string, data: any) => {
 		base64Data: data.replace('data:image/png;base64,', '').toString()
 	}).catch(error => {
 		alert(`Error: ${error.message}`)
+	})
+}
+
+export const html2Image = async (elementToConvert: string) => {
+	return new Promise((resolve, reject) => {
+		const element = document.getElementById(elementToConvert) as HTMLElement
+		const style = document.createElement('style')
+		document.head.appendChild(style)
+		style.sheet?.insertRule(
+			'body > div:last-child img { display: inline-block; }'
+		)
+
+		html2canvas(element, {
+			onclone: document => {
+				const div = document.getElementById(elementToConvert) as HTMLElement
+				div.style.overflow = 'visible'
+			},
+			width: element.scrollWidth,
+			height: element.scrollHeight,
+			scrollX: -window.scrollX,
+			scrollY: -window.scrollY,
+			scale: 2,
+			useCORS: true
+		})
+			.then(canvas => {
+				style.remove()
+				resolve(canvas.toDataURL('image/png'))
+			})
+			.catch(error => {
+				reject(error)
+			})
 	})
 }

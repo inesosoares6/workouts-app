@@ -5,10 +5,7 @@
 		transition="dialog-bottom-transition"
 		fullscreen
 	>
-		<v-card
-			id="element-to-convert"
-			:class="theme.global.name.toLocaleUpperCase()"
-		>
+		<v-card>
 			<v-toolbar>
 				<v-btn
 					icon="mdi-close"
@@ -32,7 +29,10 @@
 				</v-toolbar-items>
 			</v-toolbar>
 
-			<v-list class="px-5 mb-5">
+			<v-list
+				id="element-to-convert"
+				class="px-5 mb-5"
+			>
 				<v-timeline
 					align="start"
 					truncate-line="both"
@@ -74,11 +74,7 @@
 <script setup lang="ts">
 import { useStoreApp } from '@/stores/app'
 import { useStoreWorkouts } from '@/stores/workouts'
-import { useTheme } from 'vuetify'
-import html2canvas from 'html2canvas'
-import { shareImage } from '@/helpers/utils'
-
-const theme = ref(useTheme())
+import { html2Image, shareImage } from '@/helpers/utils'
 
 const storeApp = useStoreApp()
 const storeWorkouts = useStoreWorkouts()
@@ -92,29 +88,7 @@ const getWorkoutsDone = (selectedDay: { workoutsId: string[] }) => {
 }
 
 const shareReport = async () => {
-	const element = document.getElementById('element-to-convert') as HTMLElement
-	html2canvas(element, {
-		logging: true,
-		allowTaint: true,
-		useCORS: true,
-		width: element.scrollWidth, // Capture the full width including offscreen content
-		height: element.scrollHeight, // Capture the full height including offscreen content
-		scrollX: -window.scrollX, // Adjust for horizontal scroll
-		scrollY: -window.scrollY // Adjust for vertical scroll
-	}).then(canvas => {
-		// Process the canvas as needed, e.g., convert to image and download
-		const dataUrl = canvas.toDataURL()
-		shareImage('Weekly Report', dataUrl)
-	})
+	const dataUrl = await html2Image('element-to-convert')
+	shareImage('Weekly Report', dataUrl)
 }
 </script>
-
-<style scoped lang="css">
-.DARK {
-	background-color: #212121;
-}
-
-.LIGHT {
-	background-color: #fafafa;
-}
-</style>

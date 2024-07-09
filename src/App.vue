@@ -9,6 +9,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useTheme } from 'vuetify'
+
+const theme = ref(useTheme())
 const toggleTheme = (newTheme: string) => {
 	// @ts-ignore
 	theme.value.global.name = newTheme.toString()
