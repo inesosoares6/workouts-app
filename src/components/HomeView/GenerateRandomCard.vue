@@ -6,6 +6,7 @@
 		<template v-slot:title>Generate Random</template>
 		<template v-slot:append>
 			<v-btn
+				v-if="storeWorkouts.wodTypes.length"
 				icon
 				flat
 				size="small"

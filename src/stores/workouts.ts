@@ -2,24 +2,25 @@ import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { isWOD } from '@/helpers/utils'
 import { Summary, Workout } from '@/types/WorkoutsTypes'
-import { WODs } from '@/enums/WorkoutEnums'
 
 interface State {
 	allWorkouts: Workout[]
 	currentWorkoutId: string
+	wodTypes: string[]
 }
 
 export const useStoreWorkouts = defineStore('workouts', {
 	state: (): State => {
 		return {
 			allWorkouts: [],
-			currentWorkoutId: ''
+			currentWorkoutId: '',
+			wodTypes: []
 		}
 	},
 	getters: {
 		getCurrentWorkout: state =>
 			state.allWorkouts.filter(wod => wod.id === state.currentWorkoutId)[0],
-		getWODs: state => state.allWorkouts.filter(wod => isWOD(wod.type as WODs)),
+		getWODs: state => state.allWorkouts.filter(wod => isWOD(wod.type, state.wodTypes)),
 		getTypes: state => {
 			const types: string[] = []
 			state.allWorkouts.forEach(workout => {
@@ -37,7 +38,7 @@ export const useStoreWorkouts = defineStore('workouts', {
 				types: []
 			}
 			state.allWorkouts.forEach(workout => {
-				if (!isWOD(workout.type as WODs)) return
+				if (!isWOD(workout.type, state.wodTypes)) return
 				if (workout.completions === 0) {
 					summary.todo++
 				} else {
@@ -73,6 +74,9 @@ export const useStoreWorkouts = defineStore('workouts', {
 				this.currentWorkoutId = JSON.parse(
 					localStorage.getItem('currentWorkoutId') as string
 				)
+
+			if (localStorage.getItem('wodTypes'))
+				this.wodTypes = JSON.parse(localStorage.getItem('wodTypes') as string)
 		},
 
 		addWorkout(workout: Workout) {
@@ -116,6 +120,11 @@ export const useStoreWorkouts = defineStore('workouts', {
 
 		writeInDB() {
 			localStorage.setItem('allWorkouts', JSON.stringify(this.allWorkouts))
+		},
+
+		updateWodTypes(types: string[]) {
+			this.wodTypes = types
+			localStorage.setItem('wodTypes', JSON.stringify(this.wodTypes))
 		}
 	}
 })

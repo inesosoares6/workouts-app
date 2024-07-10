@@ -16,6 +16,9 @@
 			</v-toolbar>
 			<v-card-text>
 				<v-list class="d-flex flex-column ga-2">
+					<v-list-subheader>
+						{{ 'General'.toLocaleUpperCase() }}
+					</v-list-subheader>
 					<v-list-item
 						v-for="item in switchButtons"
 						:key="item.label"
@@ -32,8 +35,29 @@
 						</template>
 					</v-list-item>
 					<v-divider class="mb-1" />
+					<v-list-subheader>
+						{{ 'Definition'.toLocaleUpperCase() }}
+					</v-list-subheader>
 					<v-list-item
-						v-for="button in actionButtons"
+						v-for="item in definitionButtons"
+						:key="item.label"
+						:title="item.label"
+					>
+						<template v-slot:append>
+							<v-icon>mdi-chevron-right</v-icon>
+						</template>
+						<component
+							:is="item.component"
+							v-model="filters"
+							:dataText="item.propsText"
+						/>
+					</v-list-item>
+					<v-divider class="my-2" />
+					<v-list-subheader>
+						{{ 'Data Manipulation'.toLocaleUpperCase() }}
+					</v-list-subheader>
+					<v-list-item
+						v-for="button in dataButtons"
 						:key="button.title"
 						class="my-1"
 						:title="button.title"
@@ -69,13 +93,16 @@
 <script setup lang="ts">
 import { ThemeValue } from '@/enums/AppEnums'
 import { useStoreApp } from '@/stores/app'
+import { useStoreWorkouts } from '@/stores/workouts'
 import { useTheme } from 'vuetify'
 import { FileAction } from '@/enums/HomeEnums'
 import PreviewList from '@/components/HomeView/pop-ups/PreviewList.vue'
 import ConfirmationPopup from '@/components/shared/ConfirmationPopup.vue'
 import FileReader from '@/components/HomeView/pop-ups/FileReader.vue'
+import FiltersDialog from '@/components/shared/FiltersDialog.vue'
 
 const storeApp = useStoreApp()
+const storeWorkouts = useStoreWorkouts()
 
 const settingsMenu = ref(false)
 const isDarkMode = ref(true)
@@ -84,6 +111,15 @@ const theme = ref(useTheme())
 
 const importedData = ref()
 const imported = ref(false)
+
+const filters = computed({
+	get() {
+		return storeWorkouts.wodTypes
+	},
+	set(newValue) {
+		storeWorkouts.updateWodTypes(newValue)
+	}
+})
 
 const emit = defineEmits(['toggle-theme'])
 
@@ -121,7 +157,20 @@ const switchButtons = ref([
 	}
 ])
 
-const actionButtons = shallowRef([
+const definitionButtons = shallowRef([
+	{
+		label: 'Define WODs types',
+		component: FiltersDialog,
+		propsText: {
+			title: 'WODs Definition',
+			description:
+				'Select the workout types that you want to include as a WOD. These types will be used in the Generate Random WOD and in the WODs Summary.',
+			icon: 'mdi-code-brackets'
+		}
+	}
+])
+
+const dataButtons = shallowRef([
 	{
 		title: "Export the user's data to file",
 		subtitle: "This will save the user's personal data",

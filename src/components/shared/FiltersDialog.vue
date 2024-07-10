@@ -6,11 +6,16 @@
 	>
 		<v-card>
 			<template v-slot:prepend>
-				<v-icon color="secondary">mdi-tune</v-icon>
+				<v-icon color="secondary">{{ dataText.icon }}</v-icon>
 			</template>
-			<template v-slot:title>Filters</template>
+			<template v-slot:title>{{ dataText.title }}</template>
 			<v-card-text class="pb-0">
-				<span>Select the filters you want to apply</span>
+				<span
+					class="text-justify"
+					style="font-size: 14px"
+				>
+					{{ dataText.description }}
+				</span>
 				<v-row class="mt-3 px-8">
 					<v-col
 						v-for="(wod, key) in wodTypes"
@@ -40,16 +45,36 @@
 </template>
 
 <script setup lang="ts">
-import { WODs } from '@/enums/WorkoutEnums'
+import { useStoreWorkouts } from '@/stores/workouts'
+
+const storeWorkouts = useStoreWorkouts()
 
 const emit = defineEmits(['update:modelValue'])
-const props = defineProps<{
-	modelValue: string[]
-}>()
+const props = withDefaults(
+	defineProps<{
+		modelValue: string[]
+		dataText?: {
+			title: string
+			description: string
+			icon: string
+		}
+	}>(),
+	{
+		dataText: () => ({
+			title: 'Filters',
+			description: 'Select the filters you want to apply.',
+			icon: 'mdi-tune'
+		})
+	}
+)
+
+const isFiltersDialog = computed(() => props.dataText.title === 'Filters')
 
 const selected: Ref<Record<string, boolean>> = ref({})
 const filtersDialog = ref(false)
-const wodTypes = ref(Object.values(WODs))
+const wodTypes = computed(() =>
+	isFiltersDialog.value ? storeWorkouts.wodTypes : storeWorkouts.getTypes
+)
 
 const selectedFilters = computed(() => {
 	return (

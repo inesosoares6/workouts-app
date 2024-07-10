@@ -1,9 +1,8 @@
-import { WODs } from '@/enums/WorkoutEnums'
 import { FileSharer } from '@byteowls/capacitor-filesharer'
 import html2canvas from 'html2canvas'
 
-export const isWOD = (workoutType: WODs) => {
-	return Object.values(WODs).includes(workoutType)
+export const isWOD = (workoutType: string, wodsTypes: string[]) => {
+	return wodsTypes.includes(workoutType)
 }
 
 export const getWeekNumber = (date: Date): number => {

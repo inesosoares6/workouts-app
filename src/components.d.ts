@@ -26,7 +26,7 @@ declare module 'vue' {
     ExchangeCard: typeof import('./components/HomeView/ExchangeCard.vue')['default']
     FileGenerator: typeof import('./components/HomeView/pop-ups/FileGenerator.vue')['default']
     FileReader: typeof import('./components/HomeView/pop-ups/FileReader.vue')['default']
-    FiltersDialog: typeof import('./components/HomeView/pop-ups/FiltersDialog.vue')['default']
+    FiltersDialog: typeof import('./components/shared/FiltersDialog.vue')['default']
     GenerateRandomCard: typeof import('./components/HomeView/GenerateRandomCard.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     ImportExportHeader: typeof import('./components/HomeView/shared/ImportExportHeader.vue')['default']
