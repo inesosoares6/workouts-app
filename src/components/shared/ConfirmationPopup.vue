@@ -4,8 +4,8 @@
 		v-model="popupState"
 	>
 		<v-card title="Confirmation">
-			<v-card-text>
-				Are you sure that you want to erase all the application cached data?
+			<v-card-text class="pb-0">
+				{{ textConfirmation }}
 			</v-card-text>
 
 			<v-card-actions>
@@ -13,7 +13,7 @@
 
 				<v-btn
 					text="Yes"
-					color="red-darken-3"
+					:color="buttonClass"
 					@click="handleConfirm"
 				/>
 			</v-card-actions>
@@ -23,6 +23,11 @@
 
 <script setup lang="ts">
 const emit = defineEmits(['confirm'])
+
+defineProps<{
+	textConfirmation: string
+	buttonClass?: string
+}>()
 
 const popupState = ref(false)
 

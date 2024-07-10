@@ -2,76 +2,56 @@
 	<v-dialog
 		v-model="settingsMenu"
 		activator="parent"
+		transition="dialog-bottom-transition"
+		fullscreen
 	>
 		<v-card>
-			<template v-slot:title>Settings</template>
-			<v-card-text class="pb-0">
-				<v-list>
+			<v-toolbar>
+				<v-btn
+					icon="mdi-close"
+					@click="settingsMenu = false"
+				/>
+
+				<v-toolbar-title>Settings</v-toolbar-title>
+			</v-toolbar>
+			<v-card-text>
+				<v-list class="d-flex flex-column ga-2">
 					<v-list-item
-						title="Dark Mode"
-						class="pa-0"
+						v-for="item in switchButtons"
+						:key="item.label"
+						:title="item.label"
 					>
 						<template v-slot:append>
 							<v-switch
-								v-model="isDarkMode"
+								v-model="item.value"
 								color="secondary"
 								inset
 								hide-details
-								@change="toggleTheme"
+								@change="item.action"
 							/>
 						</template>
 					</v-list-item>
+					<v-divider class="mb-1" />
 					<v-list-item
-						title="Group workouts by type"
-						class="pa-0"
-					>
-						<template v-slot:append>
-							<v-switch
-								v-model="groupByTypeEnabled"
-								color="secondary"
-								inset
-								hide-details
-								@change="groupByTypeFunction"
-							/>
-						</template>
-					</v-list-item>
-				</v-list>
-			</v-card-text>
-			<v-divider />
-			<v-card-text class="py-0">
-				<v-list lines="two">
-					<v-list-item
-						title="Export the user's data to file"
-						subtitle="This will save the user's personal data"
-						class="pa-0"
-						@click="saveUserData"
+						v-for="button in actionButtons"
+						:key="button.title"
+						class="my-1"
+						:title="button.title"
+						:subtitle="button.subtitle"
+						:class="`text-${button?.class}`"
 					>
 						<template v-slot:append>
 							<v-icon>mdi-chevron-right</v-icon>
 						</template>
-					</v-list-item>
-					<v-list-item
-						title="Import data from another file"
-						subtitle="Add data previously stored in file"
-						class="pa-0"
-					>
-						<template v-slot:append>
-							<v-icon>mdi-chevron-right</v-icon>
-						</template>
-						<FileReader
-							dataType="data"
-							@preview-imported-data="previewImportedData"
+						<component
+							v-if="button?.component"
+							:is="button.component"
+							data-type="data"
+							:button-class="button?.class"
+							:text-confirmation="button?.textConfirmation"
+							@preview-imported-data="button.action"
+							@confirm="button.action"
 						/>
-					</v-list-item>
-					<v-list-item
-						title="Delete all cache"
-						subtitle="This will delete all the stored data"
-						class="pa-0 text-red-darken-3"
-					>
-						<template v-slot:append>
-							<v-icon>mdi-chevron-right</v-icon>
-						</template>
-						<ConfirmationPopup @confirm="deleteAllCache" />
 					</v-list-item>
 				</v-list>
 			</v-card-text>
@@ -91,6 +71,9 @@ import { ThemeValue } from '@/enums/AppEnums'
 import { useStoreApp } from '@/stores/app'
 import { useTheme } from 'vuetify'
 import { FileAction } from '@/enums/HomeEnums'
+import PreviewList from '@/components/HomeView/pop-ups/PreviewList.vue'
+import ConfirmationPopup from '@/components/shared/ConfirmationPopup.vue'
+import FileReader from '@/components/HomeView/pop-ups/FileReader.vue'
 
 const storeApp = useStoreApp()
 
@@ -124,6 +107,44 @@ const previewImportedData = (data: string) => {
 	importedData.value = JSON.parse(data)
 	imported.value = true
 }
+
+const switchButtons = ref([
+	{
+		label: 'Dark Mode',
+		value: isDarkMode,
+		action: toggleTheme
+	},
+	{
+		label: 'Group workouts by type',
+		value: groupByTypeEnabled,
+		action: groupByTypeFunction
+	}
+])
+
+const actionButtons = shallowRef([
+	{
+		title: "Export the user's data to file",
+		subtitle: "This will save the user's personal data",
+		action: saveUserData,
+		component: ConfirmationPopup,
+		textConfirmation: 'Do you want to share the user data through a file?'
+	},
+	{
+		title: 'Import data from another file',
+		subtitle: 'Add data previously stored in file',
+		action: previewImportedData,
+		component: FileReader
+	},
+	{
+		title: 'Delete all cache',
+		subtitle: 'This will delete all the stored data',
+		action: deleteAllCache,
+		class: 'red-darken-3',
+		component: ConfirmationPopup,
+		textConfirmation:
+			'Are you sure that you want to erase all the application cached data?'
+	}
+])
 
 onMounted(() => {
 	isDarkMode.value = theme.value.global.name === ThemeValue.DARK
