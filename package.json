@@ -9,6 +9,8 @@
 	},
 	"dependencies": {
 		"@byteowls/capacitor-filesharer": "^5.0.0",
+		"@capacitor/android": "^6.1.0",
+		"@capacitor/cli": "^6.1.0",
 		"@capacitor/clipboard": "^6.0.0",
 		"@capacitor/core": "^6.1.0",
 		"@mdi/font": "6.2.95",
@@ -25,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@babel/types": "^7.24.0",
+		"@capacitor/assets": "^3.0.5",
 		"@types/node": "^20.11.25",
 		"@types/uuid": "^10.0.0",
 		"@vitejs/plugin-vue": "^5.0.4",

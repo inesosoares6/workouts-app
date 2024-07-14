@@ -3,7 +3,7 @@
 		<v-expansion-panel
 			v-for="(list, index) in groupWorkoutsByType"
 			:key="index"
-			:title="index"
+			:title="(index as string)"
 		>
 			<v-expansion-panel-text>
 				<ListWorkouts :list="list" />

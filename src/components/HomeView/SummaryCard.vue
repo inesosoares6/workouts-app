@@ -32,7 +32,7 @@
 					v-for="(item, index) in getWorkoutSummary.types"
 					:key="index"
 				>
-					<div class="d-flex flex-column ga-2 align-center">
+					<div class="d-flex flex-column ga-2 align-center mx-2">
 						<v-avatar color="secondary">{{ item.value }}</v-avatar>
 						{{ item.type }}
 					</div>
