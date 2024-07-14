@@ -21,7 +21,10 @@
 					<v-icon color="secondary">mdi-share-variant</v-icon>
 				</v-btn>
 			</template>
-			<v-list id="element-to-convert">
+			<v-list
+				id="element-to-convert"
+				class="py-0"
+			>
 				<div
 					v-for="(workout, index) in getWorkoutsDone"
 					:key="index"
