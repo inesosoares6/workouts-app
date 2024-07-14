@@ -48,7 +48,7 @@
 						</template>
 						<component
 							:is="item.component"
-							v-model="filters"
+							v-model="wodTypes"
 							:dataText="item.propsText"
 						/>
 					</v-list-item>
@@ -112,7 +112,7 @@ const theme = ref(useTheme())
 const importedData = ref()
 const imported = ref(false)
 
-const filters = computed({
+const wodTypes = computed({
 	get() {
 		return storeWorkouts.wodTypes
 	},

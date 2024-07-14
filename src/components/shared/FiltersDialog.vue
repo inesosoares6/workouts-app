@@ -91,13 +91,15 @@ const applyFilters = () => {
 	filtersDialog.value = false
 }
 
-watch(
-	() => props.modelValue,
-	() => {
-		console.log('watch')
-		wodTypes.value.forEach(key => {
-			selected.value[key] = props.modelValue.includes(key)
-		})
-	}
-)
+const updateSelected = () => {
+	wodTypes.value.forEach(key => {
+		selected.value[key] = props.modelValue.includes(key)
+	})
+}
+
+watch(() => props.modelValue, updateSelected)
+
+onMounted(() => {
+	updateSelected()
+})
 </script>
