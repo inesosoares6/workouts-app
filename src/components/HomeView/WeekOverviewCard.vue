@@ -15,7 +15,7 @@
 			</v-btn>
 		</template>
 
-		<v-card-text class="mt-2">
+		<v-card-text class="pa-0 ma-3">
 			<v-timeline
 				direction="horizontal"
 				line-inset="8"
@@ -29,23 +29,22 @@
 					@click="handleTimelineItemClick(item)"
 				>
 					<template v-if="index % 2">
-						{{ item.day.substring(0, 3) }}
+						{{ item.day[0] }}
 					</template>
 					<template
 						v-if="!(index % 2)"
 						v-slot:opposite
 					>
-						{{ item.day.substring(0, 3) }}
+						{{ item.day[0]}}
 					</template>
 				</v-timeline-item>
 			</v-timeline>
 		</v-card-text>
-	<DailyReport
-		v-if="showWorkoutDone"
-		:selectedDay="selectedDay"
-	/>
+		<DailyReport
+			v-if="showWorkoutDone"
+			:selectedDay="selectedDay"
+		/>
 	</v-card>
-
 </template>
 
 <script setup lang="ts">
