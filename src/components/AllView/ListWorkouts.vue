@@ -11,7 +11,7 @@
 			<PreviewWorkout :workout="workout" />
 
 			<template v-slot:prepend>
-				<v-avatar :color="workout.completions ? 'secondary' : 'error'">
+				<v-avatar :color="+workout.completions ? 'secondary' : 'error'">
 					<v-icon>mdi-dumbbell</v-icon>
 				</v-avatar>
 			</template>
