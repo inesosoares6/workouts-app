@@ -15,7 +15,7 @@
 			</v-btn>
 		</template>
 
-		<v-card-text class="pa-0 ma-3">
+		<v-card-text class="py-0 mb-1">
 			<v-timeline
 				direction="horizontal"
 				line-inset="8"
@@ -35,7 +35,7 @@
 						v-if="!(index % 2)"
 						v-slot:opposite
 					>
-						{{ item.day[0]}}
+						{{ item.day[0] }}
 					</template>
 				</v-timeline-item>
 			</v-timeline>
