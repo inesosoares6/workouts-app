@@ -11,6 +11,7 @@
 						v-for="(item, index) in days"
 						:key="index"
 						:value="item.day"
+						:disabled="index > todayIndex"
 						@change="updateWorkoutCompletions(item.day)"
 					>
 						<template v-slot:label>
@@ -46,6 +47,8 @@ const days = computed(() =>
 		today: new Date().toString().split(' ')[0] === item.day.substring(0, 3)
 	}))
 )
+
+const todayIndex = computed(() => days.value.findIndex(item => item.today))
 
 const updateWorkoutCompletions = (day: string) => {
 	storeWorkouts.updateWorkout({
