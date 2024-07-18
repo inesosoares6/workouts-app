@@ -40,16 +40,13 @@
 				</template>
 
 				<v-list>
-					<v-list-item>
-						<v-list-item-title>Show Details</v-list-item-title>
-						<WorkoutDetails
-							:workout="currentWorkout"
-							@done="menu = false"
-						/>
-					</v-list-item>
-					<v-list-item>
-						<v-list-item-title>Edit Workout</v-list-item-title>
-						<EditWorkout
+					<v-list-item
+						v-for="(item, index) in menuList"
+						:key="index"
+					>
+						<v-list-item-title>{{ item.title }}</v-list-item-title>
+						<component
+							:is="item.component"
 							:workout="currentWorkout"
 							@done="menu = false"
 						/>
@@ -87,6 +84,9 @@
 import { Clipboard } from '@capacitor/clipboard'
 import { useStoreApp } from '@/stores/app'
 import { useStoreWorkouts } from '@/stores/workouts'
+import WorkoutDetails from '@/components/WorkoutView/pop-ups/WorkoutDetails.vue'
+import EditWorkout from '@/components/AllView/pop-ups/EditWorkout.vue'
+import MarkAsDone from '@/components/WorkoutView/pop-ups/MarkAsDone.vue'
 
 const storeWorkouts = useStoreWorkouts()
 const storeApp = useStoreApp()
@@ -97,6 +97,21 @@ const text = ref('')
 const menu = ref(false)
 
 const currentWorkout = computed(() => storeWorkouts.getCurrentWorkout)
+
+const menuList = shallowRef([
+	{
+		title: 'Show Details',
+		component: WorkoutDetails
+	},
+	{
+		title: 'Edit Workout',
+		component: EditWorkout
+	},
+	{
+		title: 'Mark As Done',
+		component: MarkAsDone
+	}
+])
 
 const createStringWorkout = () => {
 	return (

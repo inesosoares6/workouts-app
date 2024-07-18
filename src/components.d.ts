@@ -29,6 +29,7 @@ declare module 'vue' {
     ImportExportHeader: typeof import('./components/HomeView/shared/ImportExportHeader.vue')['default']
     ListByTypes: typeof import('./components/AllView/ListByTypes.vue')['default']
     ListWorkouts: typeof import('./components/AllView/ListWorkouts.vue')['default']
+    MarkAsDone: typeof import('./components/WorkoutView/pop-ups/MarkAsDone.vue')['default']
     NotificationToast: typeof import('./components/shared/NotificationToast.vue')['default']
     PersonalMeasurements: typeof import('./components/PersonalView/PersonalMeasurements.vue')['default']
     PersonalObjectives: typeof import('./components/PersonalView/PersonalObjectives.vue')['default']
