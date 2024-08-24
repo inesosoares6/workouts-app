@@ -28,4 +28,8 @@ const showSnackbar = (payload: string) => {
 	snackbar.value = true
 	text.value = payload
 }
+
+onBeforeMount(() => {
+	window.scrollTo(0, 0)
+})
 </script>

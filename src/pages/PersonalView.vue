@@ -6,4 +6,8 @@
 	</v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+onBeforeMount(() => {
+	window.scrollTo(0, 0)
+})
+</script>

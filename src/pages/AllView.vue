@@ -39,6 +39,10 @@ const snackbar = ref(false)
 onMounted(() => {
 	snackbar.value = !storeWorkouts.allWorkouts.length
 })
+
+onBeforeMount(() => {
+	window.scrollTo(0, 0)
+})
 </script>
 
 <style scoped lang="css">
