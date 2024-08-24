@@ -139,7 +139,7 @@ const updateWorkoutCompletions = () => {
 		storeWorkouts.updateWorkout({
 			id: storeWorkouts.currentWorkoutId,
 			updates: {
-				completions: currentWorkout.value.completions + 1
+				completions: +currentWorkout.value.completions + 1
 			}
 		})
 		storeApp.updateTimeline(
