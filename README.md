@@ -1,5 +1,5 @@
 # workouts-app
-
+An application to motivate and help with workout planning and health check. It's possible to store workouts, generate random ones, store personal records and body measurements, and create objectives.
 <p align="center">
 <img height="600" alt="image" src="https://github.com/user-attachments/assets/4fe57348-868a-46ed-b1e9-52f9c09d5b47">
 </p>
