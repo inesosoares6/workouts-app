@@ -14,13 +14,11 @@ interface State {
 }
 
 export const useStoreApp = defineStore('app', {
-	state: (): State => {
-		return {
-			timeline: initialTimelineState,
-			weekNumber: 0,
-			groupByType: false
-		}
-	},
+	state: (): State => ({
+		timeline: initialTimelineState,
+		weekNumber: 0,
+		groupByType: false
+	}),
 	getters: { getAllData: state => ({ ...state }) },
 	actions: {
 		init() {
@@ -44,14 +42,16 @@ export const useStoreApp = defineStore('app', {
 			localStorage.setItem('groupByType', JSON.stringify(this.groupByType))
 		},
 
-		updateTimeline(day: string, workoutId: string) {
+		updateTimeline(day: string, workoutId: string, remove = false) {
 			this.timeline.forEach(item => {
-				if (
-					item.day.substring(0, 3) === day &&
-					!item.workoutsId.includes(workoutId)
-				) {
-					item.color = 'secondary'
-					item.workoutsId.push(workoutId)
+				if (item.day.substring(0, 3) === day) {
+					if (remove) {
+						item.workoutsId.pop()
+						item.color = item.workoutsId.length ? 'secondary' : 'error'
+					} else if (!item.workoutsId.includes(workoutId)) {
+						item.color = 'secondary'
+						item.workoutsId.push(workoutId)
+					}
 				}
 			})
 			localStorage.setItem('timeline', JSON.stringify(this.timeline))

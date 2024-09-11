@@ -135,18 +135,19 @@ const copyWorkout = () => {
 }
 
 const updateWorkoutCompletions = () => {
-	if (checkbox.value) {
-		storeWorkouts.updateWorkout({
-			id: storeWorkouts.currentWorkoutId,
-			updates: {
-				completions: +currentWorkout.value.completions + 1
-			}
-		})
-		storeApp.updateTimeline(
-			new Date().toDateString().substring(0, 3),
-			storeWorkouts.currentWorkoutId
-		)
-	}
+	storeWorkouts.updateWorkout({
+		id: storeWorkouts.currentWorkoutId,
+		updates: {
+			completions: checkbox.value
+				? +currentWorkout.value.completions++
+				: +currentWorkout.value.completions--
+		}
+	})
+	storeApp.updateTimeline(
+		new Date().toDateString().substring(0, 3),
+		storeWorkouts.currentWorkoutId,
+		!checkbox.value
+	)
 }
 
 onMounted(() => {
