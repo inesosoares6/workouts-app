@@ -139,8 +139,8 @@ const updateWorkoutCompletions = () => {
 		id: storeWorkouts.currentWorkoutId,
 		updates: {
 			completions: checkbox.value
-				? +currentWorkout.value.completions++
-				: +currentWorkout.value.completions--
+				? +currentWorkout.value.completions + 1
+				: +currentWorkout.value.completions - 1
 		}
 	})
 	storeApp.updateTimeline(
