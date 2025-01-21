@@ -112,16 +112,11 @@ const getMeasurementColor = (measurement: Measurement) => {
 	const lastValue = measurement.value.at(-1) as number
 	const secondLastValue = measurement.value.at(-2) as number
 	switch (measurement.name) {
-		case Measures.WEIGHT:
-			return Math.abs(lastValue - measurement.target) <=
-				Math.abs(secondLastValue - measurement.target)
-				? 'secondary'
-				: 'error'
 		case Measures.MIG:
 		case Measures.MUSCLE_MASS:
-			return lastValue > secondLastValue ? 'secondary' : 'error'
+			return +lastValue > +secondLastValue ? 'secondary' : 'error'
 		default:
-			return lastValue <= secondLastValue ? 'secondary' : 'error'
+			return +lastValue <= +secondLastValue ? 'secondary' : 'error'
 	}
 }
 
