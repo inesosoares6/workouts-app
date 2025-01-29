@@ -12,45 +12,44 @@
 					@change="updateCheckboxes(selectedAll)"
 				/>
 			</template>
-			<v-card-text class="py-0">
-				<v-list
-					v-for="(list, key) in data"
-					:key="key"
-					lines="two"
-				>
-					<v-list-subheader>{{ key.toLocaleUpperCase() }}</v-list-subheader>
-					<div v-if="key === DataEnum.WORKOUTS">
-						<PreviewWorkoutItem
-							v-for="(workout, index) in list"
-							:key="index"
-							:workout="(workout as Workout)"
-							:index="[key, workout.id]"
-							@update-main-checkbox="updateMainCheckbox"
-							v-model="selected[key][workout.id]"
-						/>
-					</div>
-					<div v-else-if="key === DataEnum.OBJECTIVES">
-						<PreviewObjective
-							v-for="(listItem, index) in list"
-							:key="index"
-							:objective="(listItem as Objective)"
-							:index="[key, listItem.id]"
-							@update-main-checkbox="updateMainCheckbox"
-							v-model="selected[key][listItem.id]"
-						/>
-					</div>
-					<div v-else>
-						<PreviewPersonalValue
-							v-for="(listItem, index) in list"
-							:key="index"
-							:personal-value="(listItem as Measurement | PersonalRecord)"
-							:index="[key, listItem.id]"
-							@update-main-checkbox="updateMainCheckbox"
-							v-model="selected[key][listItem.id]"
-						/>
-					</div>
-				</v-list>
-			</v-card-text>
+			<v-list
+				v-for="(list, key) in data"
+				:key="key"
+				lines="two"
+				class="py-0"
+			>
+				<v-list-subheader>{{ key.toLocaleUpperCase() }}</v-list-subheader>
+				<div v-if="key === DataEnum.WORKOUTS">
+					<PreviewWorkoutItem
+						v-for="(workout, index) in list"
+						:key="index"
+						:workout="(workout as Workout)"
+						:index="[key, workout.id]"
+						@update-main-checkbox="updateMainCheckbox"
+						v-model="selected[key][workout.id]"
+					/>
+				</div>
+				<div v-else-if="key === DataEnum.OBJECTIVES">
+					<PreviewObjective
+						v-for="(listItem, index) in list"
+						:key="index"
+						:objective="(listItem as Objective)"
+						:index="[key, listItem.id]"
+						@update-main-checkbox="updateMainCheckbox"
+						v-model="selected[key][listItem.id]"
+					/>
+				</div>
+				<div v-else>
+					<PreviewPersonalValue
+						v-for="(listItem, index) in list"
+						:key="index"
+						:personal-value="(listItem as Measurement | PersonalRecord)"
+						:index="[key, listItem.id]"
+						@update-main-checkbox="updateMainCheckbox"
+						v-model="selected[key][listItem.id]"
+					/>
+				</div>
+			</v-list>
 			<v-card-actions>
 				<v-spacer />
 				<v-btn
