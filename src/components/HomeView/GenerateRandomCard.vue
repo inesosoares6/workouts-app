@@ -73,6 +73,7 @@ const generateValidTimeList = (): Workout[] => {
 }
 
 const generateValidTypeList = (list: Workout[]): Workout[] => {
+	if (!filters.value.length) return list
 	return list.filter(workout => filters.value.includes(workout.type))
 }
 
