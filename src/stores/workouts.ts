@@ -20,7 +20,8 @@ export const useStoreWorkouts = defineStore('workouts', {
 	getters: {
 		getCurrentWorkout: state =>
 			state.allWorkouts.filter(wod => wod.id === state.currentWorkoutId)[0],
-		getWODs: state => state.allWorkouts.filter(wod => isWOD(wod.type, state.wodTypes)),
+		getWODs: state =>
+			state.allWorkouts.filter(wod => isWOD(wod.type, state.wodTypes)),
 		getTypes: state => {
 			const types: string[] = []
 			state.allWorkouts.forEach(workout => {
@@ -42,16 +43,13 @@ export const useStoreWorkouts = defineStore('workouts', {
 				if (workout.completions === 0) {
 					summary.todo++
 				} else {
-					summary.done += workout.completions
+					summary.done++
 
 					if (summary.types.some(e => e.type === workout.type)) {
-						const index = summary.types.findIndex(object => {
-							return object.type === workout.type
-						})
+						const index = summary.types.findIndex(
+							object => object.type === workout.type
+						)
 						summary.types[index].value += workout.completions
-						if (summary.types[index].value === 0) {
-							summary.types.splice(index, 1)
-						}
 					} else {
 						summary.types = [
 							...summary.types,
