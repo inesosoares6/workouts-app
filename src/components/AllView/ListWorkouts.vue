@@ -20,7 +20,7 @@
 					flat
 					round
 					icon
-					@click="storeWorkouts.deleteWorkout(workout.id)"
+					@click.stop="storeWorkouts.deleteWorkout(workout.id)"
 				>
 					<v-icon color="red">mdi-delete</v-icon>
 				</v-btn>
