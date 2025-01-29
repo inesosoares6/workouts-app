@@ -4,7 +4,7 @@
 		activator="parent"
 	>
 		<v-card>
-			<template v-slot:title>Select to Import</template>
+			<template v-slot:title>Select All</template>
 			<template v-slot:append>
 				<v-checkbox
 					v-model="selectedAll"
