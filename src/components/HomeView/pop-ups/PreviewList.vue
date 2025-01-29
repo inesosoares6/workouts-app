@@ -57,7 +57,7 @@
 					color="secondary"
 					:disabled="!isActionButtonEnabled"
 				>
-					Generate
+					Send
 					<FileGenerator
 						:workoutList="workoutsSelected"
 						@close-menu="previewList = false"
