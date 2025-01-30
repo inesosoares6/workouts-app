@@ -60,7 +60,7 @@
 					Send
 					<FileGenerator
 						:workoutList="workoutsSelected"
-						@close-menu="previewList = false"
+						@close-menu="handleFileGenerated"
 					/>
 				</v-btn>
 				<v-btn
@@ -176,7 +176,13 @@ const importData = () => {
 	emit('completed')
 }
 
+const handleFileGenerated = () => {
+	updateCheckboxes(false)
+	previewList.value = false
+}
+
 const updateCheckboxes = (value: boolean) => {
+	selectedAll.value = value
 	Object.keys(props.data).forEach(key => {
 		// @ts-ignore
 		Object.values(props.data[key]).forEach(item => {
