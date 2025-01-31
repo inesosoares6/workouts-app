@@ -42,21 +42,37 @@ export const formatDate = (date: Date) => {
 		.replaceAll('/', '-')
 }
 
+const isLatin1 = (str: string): boolean => {
+	const latin1Regex = /[^\x00-\xFF]/ // \x00-\xFF represents the Latin-1 range
+	return !latin1Regex.test(str)
+}
+
+const enforceLatin1 = (str: string): string => {
+	if (isLatin1(str)) return str
+
+	let cleanStr = ''
+	for (let i = 0; i < str.length; i++) {
+		const charCode = str.charCodeAt(i)
+		if (charCode <= 255) {
+			cleanStr += str[i] // Append if it's a Latin-1 character
+		}
+	}
+	return cleanStr
+}
+
 export const shareFile = async (name: string, data: any) => {
-	const fileName = `${name}.json`
 	FileSharer.share({
-		filename: fileName,
+		filename: `${name}.json`,
 		contentType: 'application/json',
-		base64Data: btoa(JSON.stringify(data, null, 4))
+		base64Data: btoa(enforceLatin1(JSON.stringify(data, null, 4)))
 	}).catch(error => {
 		alert(`Error: ${error.message}`)
 	})
 }
 
 export const shareImage = async (name: string, data: any) => {
-	const fileName = `${name}-${formatDate(new Date())}.png`
 	FileSharer.share({
-		filename: fileName,
+		filename: `${name}-${formatDate(new Date())}.png`,
 		contentType: 'image/png',
 		base64Data: data.replace('data:image/png;base64,', '').toString()
 	}).catch(error => {
